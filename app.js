@@ -318,135 +318,168 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Render high-fidelity simulated report for external URLs
+    // Render high-fidelity simulated report for external URLs (Dynamic Deterministic Engine)
     function renderSimulatedReport(url) {
         radarPanel.style.display = "none";
         dashboardView.style.display = "block";
 
         // Clean up URL formatting
-        let cleanUrl = url;
+        let cleanUrl = url.trim();
         if (!cleanUrl.startsWith("http")) {
             cleanUrl = "https://" + cleanUrl;
         }
         resultUrl.innerText = cleanUrl;
 
-        // Predefined beautiful mock errors to trigger ADA lawsuit concerns
-        const mockScore = 64;
+        // Extract clean domain name and brand name
+        let hostname = "website.com";
+        try {
+            let urlObj = new URL(cleanUrl);
+            hostname = urlObj.hostname.replace("www.", "");
+        } catch(e) {
+            hostname = cleanUrl.replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0];
+        }
+        let brandName = hostname.split(".")[0] || "website";
+        let capitalizedBrand = brandName.charAt(0).toUpperCase() + brandName.slice(1);
+
+        // String hashing function to generate unique but repeatable numbers for each site
+        let hash = 0;
+        for (let i = 0; i < hostname.length; i++) {
+            hash = hostname.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        hash = Math.abs(hash);
+
+        // Deterministic score (between 58% and 88% to look extremely realistic!)
+        const mockScore = 58 + (hash % 31);
         animateScore(mockScore);
 
-        riskLevelText.className = "risk-level high";
-        riskLevelText.innerText = "High";
-        countViolations.innerText = "5";
+        // Deterministic violations pool selection
+        const violationsPool = [
+            {
+                id: "image-alt",
+                badge: "critical",
+                badgeLabel: "CRITICAL",
+                title: "Images missing Alternative Text ('alt' attributes)",
+                standard: "WCAG 2.1 (Success Criterion 1.1.1)",
+                desc: "Screen readers cannot describe images to blind or visually impaired users if the alternative description tag is missing. This is a primary focal point for litigation lawyers!",
+                badCode: `<img src="https://www.${hostname}/assets/images/logo.png" class="brand-logo">`,
+                goodCode: `<img src="https://www.${hostname}/assets/images/logo.png" class="brand-logo" alt="${capitalizedBrand} official brand logo preview">`
+            },
+            {
+                id: "color-contrast",
+                badge: "critical",
+                badgeLabel: "CRITICAL",
+                title: "Insufficient text color contrast ratio",
+                standard: "WCAG 2.1 (Success Criterion 1.4.3)",
+                desc: "The contrast ratio of text elements against their background colors falls below 4.5:1. Visually impaired, colorblind, or elderly users cannot read this text.",
+                badCode: `.${brandName}-hero-subtitle {\n  color: #8fa0be; /* Contrast ratio is 2.8:1 */\n  background-color: #0b0f19;\n}`,
+                goodCode: `.${brandName}-hero-subtitle {\n  color: #e2e8f0; /* Contrast ratio is 6.5:1 (Fulfills WCAG AAA!) */\n  background-color: #0b0f19;\n}`
+            },
+            {
+                id: "focus-visible",
+                badge: "critical",
+                badgeLabel: "CRITICAL",
+                title: "Keyboard Focus Trap or missing interactive outline indicators",
+                standard: "WCAG 2.1 (Success Criterion 2.4.7)",
+                desc: "Your style rule hides the default focus ring outline. When navigating with the Tab key (used by motor-disabled users), they cannot see where their cursor focus is.",
+                badCode: `button.${brandName}-cta:focus, a.${brandName}-link:focus {\n  outline: none; /* Severe focus outline removal violation */\n}`,
+                goodCode: `button.${brandName}-cta:focus, a.${brandName}-link:focus {\n  outline: 3px solid #6366f1; /* High contrast outline indicator */\n  outline-offset: 2px;\n}`
+            },
+            {
+                id: "heading-order",
+                badge: "warning",
+                badgeLabel: "WARNING",
+                title: "Skipped Heading Hierarchical Structure levels",
+                standard: "WCAG 2.1 (Success Criterion 1.3.1)",
+                desc: "Headings are skipped incorrectly (e.g., using an <h3> tag directly after an <h1> skipping <h2>). Screen-reader users navigate documents by headings, and skipped levels disorient them.",
+                badCode: `<h1>Welcome to ${capitalizedBrand}</h1>\n<h3>Explore Our Tools</h3> <!-- Skipped H2 level -->`,
+                goodCode: `<h1>Welcome to ${capitalizedBrand}</h1>\n<h2>Explore Our Tools</h2> <!-- Safe semantic hierarchy -->`
+            },
+            {
+                id: "label",
+                badge: "critical",
+                badgeLabel: "CRITICAL",
+                title: "Form input elements missing associated text labels",
+                standard: "WCAG 2.1 (Success Criterion 3.3.2)",
+                desc: "Interactive form fields (like email inputs or search bars) must have explicit text labels or accessible ARIA descriptors so blind users know what input is required.",
+                badCode: `<input type="email" id="${brandName}-subscribe" placeholder="Subscribe to ${capitalizedBrand} newsletter">`,
+                goodCode: `<input type="email" id="${brandName}-subscribe" placeholder="Subscribe to ${capitalizedBrand} newsletter" aria-label="Email subscription input">`
+            },
+            {
+                id: "frame-title",
+                badge: "warning",
+                badgeLabel: "WARNING",
+                title: "Frames or IFrames missing descriptive title attributes",
+                standard: "WCAG 2.1 (Success Criterion 4.1.2)",
+                desc: "Embedded content frames (like Youtube video integrations or interactive maps) require descriptive title attributes so screen readers can explain what content the frame contains.",
+                badCode: `<iframe src="https://www.youtube.com/embed/${brandName}-promo" width="560" height="315"></iframe>`,
+                goodCode: `<iframe src="https://www.youtube.com/embed/${brandName}-promo" width="560" height="315" title="${capitalizedBrand} Promotional Video Presentation"></iframe>`
+            }
+        ];
 
-        violationsList.innerHTML = `
-            <div class="violation-accordion open">
+        // Select 3 to 5 deterministic violations based on hash
+        let selectedViolations = [];
+        let totalViolationsCount = 3 + (hash % 3); // 3, 4, or 5 violations
+
+        for (let i = 0; i < 6; i++) {
+            let poolIdx = (hash + i) % violationsPool.length;
+            if (!selectedViolations.some(v => v.id === violationsPool[poolIdx].id)) {
+                selectedViolations.push(violationsPool[poolIdx]);
+            }
+            if (selectedViolations.length >= totalViolationsCount) break;
+        }
+
+        // Set Risk Level
+        let risk = "Low";
+        riskLevelText.className = "risk-level";
+        let criticals = selectedViolations.filter(v => v.badge === "critical").length;
+        
+        if (criticals >= 3 || mockScore < 70) {
+            risk = "High";
+            riskLevelText.classList.add("high");
+        } else if (criticals > 0 || mockScore < 90) {
+            risk = "Medium";
+            riskLevelText.classList.add("medium");
+        } else {
+            riskLevelText.classList.add("low");
+        }
+        riskLevelText.innerText = risk;
+        countViolations.innerText = selectedViolations.length;
+
+        // Render dynamic violation blocks
+        violationsList.innerHTML = "";
+        selectedViolations.forEach((violation, idx) => {
+            const isOpenClass = (idx === 0) ? "open" : "";
+            
+            const accordion = document.createElement("div");
+            accordion.className = `violation-accordion ${isOpenClass}`;
+            accordion.innerHTML = `
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="header-left">
-                        <span class="violation-badge critical">CRITICAL</span>
-                        <span class="accordion-title">Images missing Alternative Text ('alt' attributes)</span>
+                        <span class="violation-badge ${violation.badge}">${violation.badgeLabel}</span>
+                        <span class="accordion-title">${violation.title}</span>
                     </div>
                     <span class="accordion-icon">▼</span>
                 </div>
                 <div class="accordion-content">
                     <div class="wcag-rule-info">
-                        <strong>Rule Violation:</strong> <span>image-alt</span> | 
-                        <strong>Standard:</strong> <span>WCAG 2.1 (Success Criterion 1.1.1)</span>
+                        <strong>Rule Violation:</strong> <span>${violation.id}</span> | 
+                        <strong>Standard:</strong> <span>${violation.standard}</span>
                     </div>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px;">Screen readers cannot describe images to blind or visually impaired users if the alternative description tag is missing. This is a primary focal point for litigation lawyers!</p>
+                    <p style="font-size: 0.9rem; margin-bottom: 12px;">${violation.desc}</p>
                     
                     <div class="code-fix-block">
                         <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element Code:</p>
-                        <pre class="code-box bad" data-lang="HTML"><code>${escapeHtml('<img src="/assets/hero-banner.png" class="responsive-img">')}</code></pre>
+                        <pre class="code-box bad" data-lang="HTML"><code>${escapeHtml(violation.badCode)}</code></pre>
                         
                         <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
-                        <pre class="code-box good" data-lang="Corrected HTML"><code>${escapeHtml('<img src="/assets/hero-banner.png" class="responsive-img" alt="LegAlly Hero banner showing accessibility check dashboard">')}</code></pre>
+                        <pre class="code-box good" data-lang="Corrected Code"><code>${escapeHtml(violation.goodCode)}</code></pre>
                         
                         <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="violation-accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <span class="violation-badge critical">CRITICAL</span>
-                        <span class="accordion-title">Insufficient text color contrast ratio</span>
-                    </div>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="wcag-rule-info">
-                        <strong>Rule Violation:</strong> <span>color-contrast</span> | 
-                        <strong>Standard:</strong> <span>WCAG 2.1 (Success Criterion 1.4.3)</span>
-                    </div>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px;">The contrast ratio of text elements against their background colors falls below 4.5:1. Visually impaired, colorblind, or elderly users cannot read this text.</p>
-                    
-                    <div class="code-fix-block">
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element CSS:</p>
-                        <pre class="code-box bad" data-lang="CSS"><code>${escapeHtml('.hero-subtext {\n  color: #8fa0be; /* Contrast ratio is 2.8:1 */\n  background-color: #0b0f19;\n}')}</code></pre>
-                        
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
-                        <pre class="code-box good" data-lang="Corrected CSS"><code>${escapeHtml('.hero-subtext {\n  color: #e2e8f0; /* Contrast ratio is 6.5:1 (Fulfills WCAG AAA!) */\n  background-color: #0b0f19;\n}')}</code></pre>
-                        
-                        <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="violation-accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <span class="violation-badge critical">CRITICAL</span>
-                        <span class="accordion-title">Keyboard Focus Trap or missing interactive outline indicators</span>
-                    </div>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="wcag-rule-info">
-                        <strong>Rule Violation:</strong> <span>focus-visible</span> | 
-                        <strong>Standard:</strong> <span>WCAG 2.1 (Success Criterion 2.4.7)</span>
-                    </div>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px;">Your style rule hides the default focus ring outline. When navigating with the Tab key (used by motor-disabled users), they cannot see where their cursor focus is.</p>
-                    
-                    <div class="code-fix-block">
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element CSS:</p>
-                        <pre class="code-box bad" data-lang="CSS"><code>${escapeHtml('button:focus, a:focus {\n  outline: none; /* Severe focus outline removal violation */\n}')}</code></pre>
-                        
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
-                        <pre class="code-box good" data-lang="Corrected CSS"><code>${escapeHtml('button:focus, a:focus {\n  outline: 3px solid #6366f1; /* High contrast outline indicator */\n  outline-offset: 2px;\n}')}</code></pre>
-                        
-                        <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="violation-accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <span class="violation-badge warning">WARNING</span>
-                        <span class="accordion-title">Skipped Heading Hierarchical Structure levels</span>
-                    </div>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="wcag-rule-info">
-                        <strong>Rule Violation:</strong> <span>heading-order</span> | 
-                        <strong>Standard:</strong> <span>WCAG 2.1 (Success Criterion 1.3.1)</span>
-                    </div>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px;">Headings are skipped incorrectly (e.g., using an &lt;h3&gt; tag directly after an &lt;h1&gt; skipping &lt;h2&gt;). Screen-reader users navigate documents by headings, and skipped levels disorient them.</p>
-                    
-                    <div class="code-fix-block">
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element structure:</p>
-                        <pre class="code-box bad" data-lang="HTML"><code>${escapeHtml('<h1>Main Page Title</h1>\n<h3>Section Title</h3> <!-- Skipped H2 level -->')}</code></pre>
-                        
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
-                        <pre class="code-box good" data-lang="Corrected HTML"><code>${escapeHtml('<h1>Main Page Title</h1>\n<h2>Section Title</h2> <!-- Safe semantic hierarchy -->')}</code></pre>
-                        
-                        <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
-                    </div>
-                </div>
-            </div>
-        `;
+            `;
+            violationsList.appendChild(accordion);
+        });
     }
 
     // SVG Score Animate Function
