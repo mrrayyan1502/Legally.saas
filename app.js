@@ -499,6 +499,15 @@ document.addEventListener("DOMContentLoaded", () => {
     btnApply.addEventListener("click", () => {
         const code = couponInput.value.trim().toUpperCase();
         if (code === "LAUNCH20") {
+            // Check if coupon is expired (Launch: June 1, 2026 | Expiry: July 1, 2026)
+            const expiryDate = new Date("2026-07-01T23:59:59");
+            const currentDate = new Date();
+            
+            if (currentDate > expiryDate) {
+                alert("This promo code (LAUNCH20) expired on July 1, 2026. The 30-day launch campaign has successfully concluded.");
+                return;
+            }
+            
             // Apply 20% discount on £299
             strikePrice.style.display = "inline";
             discountRow.style.display = "flex";
