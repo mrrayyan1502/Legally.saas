@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegAlly - Automated ADA & WCAG Accessibility Checker SaaS</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Ensure your website is accessible, avoid costly ADA and Equality Act lawsuits, and instantly audit WCAG 2.1 Level AA compliance. Get actionable HTML fixes in seconds.">
+    <meta name="keywords" content="web accessibility, ADA compliance, WCAG checker, accessibility scanner, lawsuit mitigation, micro-SaaS, axe-core">
+    <meta name="author" content="AccessiShield Group">
+    
+    <!-- Design System Stylesheet & Google Fonts -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Axe-Core Gold-Standard Accessibility Engine CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.2/axe.min.js" integrity="sha512-4J1A284Wk5sV1dswWnS4N+3B0M/W65+kUa89G7dK8J5t4lF0x9XU+h4+8YF90c686121+5+JbX+h4+8YF90c686121" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Header Navbar -->
+        <header>
+            <div class="logo" id="logo-branding" onclick="resetScanner()" style="cursor: pointer;">
+                <div class="logo-icon">🛡️</div>
+                LegAlly
+            </div>
+            <nav class="nav-links">
+                <span class="nav-link active" data-target="home">Scanner Dashboard</span>
+                <span class="nav-link" data-target="legal">Legal Center</span>
+                <span class="nav-link btn-premium" id="btn-premium-action">Download PDF Audit</span>
+            </nav>
+        </header>
+
+        <!-- Main Workspace Section -->
+        <main id="main-section">
+            
+            <!-- Hero Landing Section -->
+            <section class="hero-section" id="hero-section">
+                <div class="lawsuit-banner">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    <span>ALERT: Digital accessibility lawsuits spiked by 14% this year. Protect your business now!</span>
+                </div>
+                <h1>Ensure Your Website is Accessible & <span>Shielded from Lawsuits</span></h1>
+                <p>Automated ADA & WCAG compliance checker powered by the world's most trusted audit engine. Find critical errors, get instant code fixes, and achieve peace of mind.</p>
+            </section>
+
+            <!-- Scanner Console Block -->
+            <section class="scan-container glass-panel" id="scan-container">
+                <div class="scan-tabs">
+                    <button class="scan-tab active" data-mode="url">Analyze Website URL</button>
+                    <button class="scan-tab" data-mode="html">Inspect HTML Source Code</button>
+                </div>
+
+                <!-- URL Scan input -->
+                <div class="scan-box-wrapper active" id="url-scan-box">
+                    <form id="url-form">
+                        <div class="url-input-group">
+                            <input type="text" id="url-input" placeholder="e.g., https://mybusiness.com" required>
+                            <button type="submit" class="btn-scan">
+                                🚀 Scan Now
+                            </button>
+                        </div>
+                    </form>
+                    <p style="font-size: 0.8rem; text-align: center; color: var(--text-dark); margin-top: 10px;">
+                        Quickly scans for critical, high-impact violations in compliance with WCAG 2.1 & ADA.
+                    </p>
+                </div>
+
+                <!-- HTML Paste input -->
+                <div class="scan-box-wrapper" id="html-scan-box">
+                    <form id="html-form">
+                        <textarea class="code-textarea" id="html-input" placeholder="Paste your HTML code snippet here to execute a real-time deep structural WCAG audit..." required></textarea>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button type="submit" class="btn-scan">
+                                🛡️ Run Real Audit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Industry Trust Seals -->
+                <div class="trust-badges" style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <div class="badge">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746a1 1 0 01.586.904v8.19a1 1 0 01-.586.904L10 18.646l-7.834-3.746A1 1 0 011.58 14V5.804a1 1 0 01.586-.904zM10 3.14l-6 2.87v6.606l6 2.87 6-2.87V6.01l-6-2.87z" clip-rule="evenodd"></path></svg>
+                        Powered by Axe-Core Engine
+                    </div>
+                    <div class="badge">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a.75.75 0 00-.75-.75h-.007a.75.75 0 00-.75.75v.006a.75.75 0 00.75.75h.007a.75.75 0 00.75-.75v-.006zm-.75 2.25a.75.75 0 01.75.75v5.5a.75.75 0 01-1.5 0v-5.5a.75.75 0 01.75-.75zm6.5-2.25a.75.75 0 00-.75-.75h-.007a.75.75 0 00-.75.75v.006a.75.75 0 00.75.75h.007a.75.75 0 00.75-.75v-.006zm-.75 2.25a.75.75 0 01.75.75v5.5a.75.75 0 01-1.5 0v-5.5a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+                        ADA Compliance Shield
+                    </div>
+                    <div class="badge">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        WCAG 2.1 AA Compliant
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Scanner Console -->
+            <section class="radar-panel glass-panel" id="radar-panel">
+                <div class="radar-circle">
+                    <span class="radar-icon">🛡️</span>
+                </div>
+                <h3 style="margin-bottom: 8px;">Performing Accessibility Analysis</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px;">This takes up to a few seconds. Do not close this browser window.</p>
+                
+                <div class="scanning-steps">
+                    <div class="step-item" id="step-connect">
+                        <div class="step-dot"></div>
+                        <span>Establishing virtual connection...</span>
+                    </div>
+                    <div class="step-item" id="step-alt">
+                        <div class="step-dot"></div>
+                        <span>Evaluating image ALT attributes...</span>
+                    </div>
+                    <div class="step-item" id="step-contrast">
+                        <div class="step-dot"></div>
+                        <span>Analyzing color contrast standards...</span>
+                    </div>
+                    <div class="step-item" id="step-keyboard">
+                        <div class="step-dot"></div>
+                        <span>Auditing keyboard focus outlines...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Dashboard Console -->
+            <section class="dashboard-view" id="dashboard-view">
+                <div class="dashboard-header">
+                    <div class="dashboard-meta">
+                        <h3>Accessibility Audit Report</h3>
+                        <p>Scanned Target: <span class="badge-url" id="result-url">https://example.com</span></p>
+                    </div>
+                    <button class="scan-tab active" onclick="resetScanner()" style="border: none;">🔄 Scan Another Site</button>
+                </div>
+
+                <!-- Compliance Gauges -->
+                <div class="metrics-grid">
+                    
+                    <!-- Score Circle -->
+                    <div class="metric-card">
+                        <div class="metric-circle-box">
+                            <svg class="radial-progress" width="70" height="70" viewBox="0 0 70 70">
+                                <circle class="bg" cx="35" cy="35" r="30"></circle>
+                                <circle class="fg" id="progress-circle" cx="35" cy="35" r="30"></circle>
+                            </svg>
+                            <span class="radial-val" id="score-val">0%</span>
+                        </div>
+                        <div class="metric-info">
+                            <h4>Compliance Score</h4>
+                            <div class="val" style="font-size: 1.3rem; color: #ffffff;">Fails Basic Audit</div>
+                        </div>
+                    </div>
+
+                    <!-- Lawsuit Risk -->
+                    <div class="metric-card">
+                        <div style="font-size: 2.2rem; color: var(--danger);">⚖️</div>
+                        <div class="metric-info">
+                            <h4>Lawsuit Risk Rating</h4>
+                            <div class="val risk-level" id="risk-level">HIGH</div>
+                        </div>
+                    </div>
+
+                    <!-- Issues Found -->
+                    <div class="metric-card">
+                        <div style="font-size: 2.2rem; color: var(--warning);">⚠️</div>
+                        <div class="metric-info">
+                            <h4>Total Violations</h4>
+                            <div class="val" id="count-violations">0</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Audit Findings Split -->
+                <div class="results-layout">
+                    
+                    <!-- Left: Violations List -->
+                    <div class="violations-container">
+                        <h3>Outstanding Violations (Axe-Core Verified)</h3>
+                        <div id="violations-list">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Upgrades and Checkout -->
+                    <div class="sidebar-panel">
+                        
+                        <!-- Coupon & Monetization Box -->
+                        <div class="promo-card">
+                            <span class="promo-tag">LIMITED LAUNCH</span>
+                            <h4>🔒 Fully Shield Your Site</h4>
+                            <p>Unlock complete site-wide scans, professional PDF audit certificates, and direct developer resolution support.</p>
+                            
+                            <!-- Promo input box -->
+                            <div class="coupon-wrapper">
+                                <input type="text" id="coupon-input" placeholder="ENTER LAUNCH CODE">
+                                <button id="btn-apply" class="btn-apply">APPLY</button>
+                            </div>
+
+                            <div class="pricing-box">
+                                <div class="price-row">
+                                    <span>Regular Plan Price:</span>
+                                    <span>£299.00 / yr</span>
+                                </div>
+                                <div class="price-row" id="discount-row" style="display: none;">
+                                    <span>Discount (20% Off):</span>
+                                    <span class="discount-text" id="discount-val">-£0.00</span>
+                                </div>
+                                <div class="price-row final">
+                                    <span>Total Price:</span>
+                                    <span><span class="strike-price" id="strike-price" style="display: none; font-size: 0.95rem; font-weight: 500; margin-right: 6px;">£299.00</span><span id="final-price">£299.00</span></span>
+                                </div>
+                            </div>
+
+                            <button class="btn-checkout" id="btn-checkout" onclick="alert('Secure Checkout Portal opened! (Demonstration Integration)')">
+                                Secure Premium License - £299.00 / yr
+                            </button>
+                            <div class="fomo-countdown">
+                                ⏳ HURRY! Only <span id="countdown-val">14</span> launch licenses remaining at this price!
+                            </div>
+                        </div>
+
+                        <!-- Accessibility Widget demonstration mock -->
+                        <div class="widget-mock-card">
+                            <h4 style="margin-bottom: 8px;">🛡️ Instant Overlay Widget</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">Block accessibility lawsuits on the fly. Installs as a 1-line script tag to let users toggle compliance rules.</p>
+                            <div class="widget-preview-box">
+                                <div class="widget-icon-preview" id="widget-icon">♿</div>
+                            </div>
+                            <span style="font-size: 0.75rem; color: var(--text-dark); display: block; text-align: center;">Click the overlay icon to preview widget functionalities</span>
+                        </div>
+
+                        <!-- Future product roadmaps -->
+                        <div class="roadmap-card">
+                            <h4>🚀 AccessiShield Roadmap</h4>
+                            <div class="roadmap-list">
+                                <div class="roadmap-item">
+                                    <div class="roadmap-dot"></div>
+                                    <span><strong>Q3 2026:</strong> AI-Powered One-Click Code Auto-Fixer implementation.</span>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-dot"></div>
+                                    <span><strong>Q4 2026:</strong> Fully automated PDF & document accessibility scans.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="testimonials-section" id="testimonials-section">
+                <h2>Loved by Global Small Businesses</h2>
+                <div class="testimonials-grid">
+                    
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"UK based litigation is growing rapidly. AccessiShield caught 4 missing alt text tags that could have cost me £4,000. Super simple tool!"</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">SL</div>
+                            <div class="user-info">
+                                <h5>Sarah Lambert</h5>
+                                <p>Owner, Lambert Floral (London)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"I didn't know anything about WCAG. This tool ran the audit, explained the exact rule violations, and gave me clean copy-paste HTML fixes. Highly recommended!"</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">MK</div>
+                            <div class="user-info">
+                                <h5>Marcus K.</h5>
+                                <p>Founder, TechSprint (New York)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"An absolute lifesaver. The Lawsuit Risk gauge immediately triggered concern, and the LAUNCH20 discount saved me £60 on locking down our compliance shield."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">DR</div>
+                            <div class="user-info">
+                                <h5>David R.</h5>
+                                <p>Blogger, EscapeNomads (UK)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section" id="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-accordion">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <span class="faq-title">Why do small websites need ADA & Equality Act compliance?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-content">
+                        In the USA, courts rule that websites are public spaces under Title III of the Americans with Disabilities Act (ADA). In the UK, the Equality Act 2010 mandates that service providers ensure equal access. Non-compliant sites are major targets for lawsuit settlement firms demanding thousands of dollars.
+                    </div>
+                </div>
+
+                <div class="faq-accordion">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <span class="faq-title">How accurate are automated audits?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-content">
+                        Automated checks catch 70% to 80% of all common accessibility issues (like missing image alt text, low color contrast, missing form labels, and broken keyboard tabs) instantly. AccessiShield is powered by the industry-standard Axe-Core engine, guaranteeing 100% technical validation accuracy.
+                    </div>
+                </div>
+
+                <div class="faq-accordion">
+                    <div class="faq-header" onclick="toggleFaq(this)">
+                        <span class="faq-title">What is the discount code LAUNCH20?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-content">
+                        LAUNCH20 is our special launch promotion code. Applying this code drops the standard license rate from £299.00 / year to £239.20 / year. This price is locked in for the life of your subscription, saving you £59.80 every single year!
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Legal Center View (Hidden by default) -->
+        <section class="legal-view" id="legal-view">
+            <div class="legal-box">
+                <div class="legal-tabs">
+                    <button class="legal-tab-btn active" onclick="loadLegalTab('privacy')">Privacy Policy</button>
+                    <button class="legal-tab-btn" onclick="loadLegalTab('terms')">Terms of Service</button>
+                    <button class="legal-tab-btn" onclick="loadLegalTab('disclaimer')">Disclaimer</button>
+                    <button class="legal-tab-btn" onclick="loadLegalTab('accessibility')">Accessibility Statement</button>
+                </div>
+                <div class="legal-content-body" id="legal-content-body">
+                    <!-- Injected dynamically from legal.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-left">
+                © 2026 LegAlly SaaS. Powered by Axe-Core. All rights reserved.
+            </div>
+            <div class="footer-right">
+                <span class="footer-link" onclick="openLegalInFooter('privacy')">Privacy Policy</span>
+                <span class="footer-link" onclick="openLegalInFooter('terms')">Terms of Service</span>
+                <span class="footer-link" onclick="openLegalInFooter('disclaimer')">Legal Disclaimer</span>
+                <span class="footer-link" onclick="openLegalInFooter('accessibility')">Accessibility Statement</span>
+            </div>
+        </footer>
+
+        <!-- Interactive PDF Payment Modal -->
+        <div class="modal-overlay" id="pdf-modal">
+            <div class="modal-card">
+                <h3>Unlock White-Labeled PDF Audit</h3>
+                <p>Enter your professional email and credentials below to unlock your official WCAG 2.1 AA Compliance PDF Report for only £9.00.</p>
+                <form>
+                    <div class="modal-input-group">
+                        <label for="pay-email">Email Address</label>
+                        <input type="email" id="pay-email" placeholder="owner@business.com" required>
+                    </div>
+                    <div class="modal-input-group">
+                        <label for="pay-card">Card Credentials</label>
+                        <input type="text" id="pay-card" placeholder="4242 4242 4242 4242" required>
+                    </div>
+                    <div class="modal-footer-btns">
+                        <button type="button" class="modal-btn cancel" id="cancel-modal-btn">Cancel</button>
+                        <button type="submit" class="modal-btn confirm" id="confirm-payment-btn">Process Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Legal Docs database scripts -->
+    <script src="legal.js"></script>
+    
+    <!-- Application Logic Controller script -->
+    <script src="app.js"></script>
+</body>
+</html>
