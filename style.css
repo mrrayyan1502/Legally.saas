@@ -584,7 +584,7 @@ header {
 /* Violation Layout tabs */
 .results-layout {
     display: grid;
-    grid-template-columns: 2fr 1.2fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
     gap: 24px;
 }
 
