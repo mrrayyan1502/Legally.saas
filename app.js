@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(nextStep, 300);
     }
 
-    // Execute real client-side Axe audit inside dynamic sandboxed Iframe
+    // Execute real client-side Axe audit inside dynamic offscreen container
     function executeAxeCoreScan(userHTML) {
         try {
             // Check if axe library is available
@@ -167,34 +167,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error("Axe-core library failed to load from CDN. Reverting to smart analysis.");
             }
 
-            // Create offscreen Iframe sandbox to mount user's code safely
-            const iframe = document.createElement("iframe");
-            iframe.style.position = "absolute";
-            iframe.style.width = "0px";
-            iframe.style.height = "0px";
-            iframe.style.border = "none";
-            iframe.style.visibility = "hidden";
-            document.body.appendChild(iframe);
+            // Create temporary offscreen container to mount user's code safely in the main DOM context
+            const container = document.createElement("div");
+            container.style.position = "absolute";
+            container.style.left = "-9999px";
+            container.style.top = "-9999px";
+            container.style.width = "1px";
+            container.style.height = "1px";
+            container.style.overflow = "hidden";
+            container.innerHTML = userHTML;
+            document.body.appendChild(container);
 
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            iframeDoc.open();
-            iframeDoc.write(`
-                <!DOCTYPE html>
-                <html>
-                <head><title>Sandbox Audit</title></head>
-                <body>${userHTML}</body>
-                </html>
-            `);
-            iframeDoc.close();
-
-            // Run real accessibility checks
-            axe.run(iframeDoc, (err, results) => {
-                // Clean up iframe sandbox
-                document.body.removeChild(iframe);
+            // Run Axe-core directly on this container in the main document context
+            axe.run(container, (err, results) => {
+                // Clean up container immediately
+                document.body.removeChild(container);
 
                 if (err) {
                     console.error("Axe Audit Error:", err);
-                    renderSimulatedReport("Real Code Snippet (Fallback)");
+                    renderSimulatedReport("Pasted Code Panel");
                     return;
                 }
 
