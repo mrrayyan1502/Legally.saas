@@ -5,6 +5,21 @@
 */
 
 document.addEventListener("DOMContentLoaded", () => {
+    // 0. Automatic Post-Payment PDF Audit Delivery System
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("pdf") === "success") {
+        alert("🎉 PAYMENT VERIFIED SUCCESSFULLY!\n\nThank you for purchasing the LegAlly Certified Compliance PDF Report. We are now generating your premium white-labeled audit report certificate...");
+        
+        // Clean URL query parameters so the browser navigation remains clean
+        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+        
+        // Automatically open the print dialog
+        setTimeout(() => {
+            window.print();
+        }, 800);
+    }
+
     // Navigation Toggles
     const navLinks = document.querySelectorAll(".nav-link");
     const mainSection = document.getElementById("main-section");
