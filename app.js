@@ -179,17 +179,21 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.appendChild(container);
 
             // Run Axe-core directly on this container in the main document context
-            // We disable global page-wide rules (like landmark-one-main, duplicate-id, page-has-heading-one, html-has-lang, bypass, region)
-            // so that LegAlly's own layout elements (like testimonials or headers/footers) do not leak into the pasted code audit.
+            // We disable global page-wide and document-level rules so that LegAlly's own layout elements
+            // (like headers, footers, testimonials h5, or main-sections) do not leak into the pasted code audit.
             axe.run(container, {
                 rules: {
                     'duplicate-id': { enabled: false },
                     'duplicate-id-active': { enabled: false },
                     'landmark-one-main': { enabled: false },
+                    'landmark-no-duplicate-banner': { enabled: false },
+                    'landmark-no-duplicate-contentinfo': { enabled: false },
+                    'landmark-no-duplicate-main': { enabled: false },
                     'page-has-heading-one': { enabled: false },
                     'html-has-lang': { enabled: false },
                     'bypass': { enabled: false },
-                    'region': { enabled: false }
+                    'region': { enabled: false },
+                    'heading-order': { enabled: false }
                 }
             }, (err, results) => {
                 // Clean up container immediately
