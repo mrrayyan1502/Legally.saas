@@ -23,19 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
             if (litigationView) litigationView.style.display = "none";
 
             if (target === "home") {
-                mainSection.style.display = "block";
-                legalView.style.display = "none";
+                if (mainSection) mainSection.style.display = "block";
+                if (legalView) legalView.style.display = "none";
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else if (target === "pricing") {
-                mainSection.style.display = "block";
-                legalView.style.display = "none";
+                if (mainSection) mainSection.style.display = "block";
+                if (legalView) legalView.style.display = "none";
                 const pricingSection = document.getElementById("pricing-section");
                 if (pricingSection) {
                     pricingSection.scrollIntoView({ behavior: 'smooth' });
                 }
             } else if (target === "legal") {
-                mainSection.style.display = "none";
-                legalView.style.display = "block";
+                if (mainSection) mainSection.style.display = "none";
+                if (legalView) legalView.style.display = "block";
                 loadLegalTab("privacy"); // default legal tab
             }
         });
@@ -85,42 +85,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const violationsList = document.getElementById("violations-list");
 
     // Trigger URL Scan (Simulated Crawler)
-    urlForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const url = urlInput.value.trim();
-        if (!url) return;
+    if (urlForm) {
+        urlForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const url = urlInput ? urlInput.value.trim() : "";
+            if (!url) return;
 
-        // Start scanning screen transition
-        transitionToScanning();
+            // Start scanning screen transition
+            transitionToScanning();
 
-        // Simulate steps sequentially
-        runSimulatedScanSteps(url);
-    });
+            // Simulate steps sequentially
+            runSimulatedScanSteps(url);
+        });
+    }
 
     // Trigger HTML Scan (REAL Axe-Core Scan inside isolated sandbox iframe)
-    htmlForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const code = htmlInput.value.trim();
-        if (!code) return;
+    if (htmlForm) {
+        htmlForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const code = htmlInput ? htmlInput.value.trim() : "";
+            if (!code) return;
 
-        activeAuditedCode = code; // Cache the raw HTML code for the AI Auto-Fixer
+            activeAuditedCode = code; // Cache the raw HTML code for the AI Auto-Fixer
 
-        transitionToScanning();
+            transitionToScanning();
 
-        // Simulate step items before running real axe
-        runRealAxeCoreSteps(code);
-    });
+            // Simulate step items before running real axe
+            runRealAxeCoreSteps(code);
+        });
+    }
 
     function transitionToScanning() {
         // Hide standard landing page elements
-        heroSection.style.display = "none";
-        scanContainer.style.display = "none";
+        if (heroSection) heroSection.style.display = "none";
+        if (scanContainer) scanContainer.style.display = "none";
         if (testimonialsSection) testimonialsSection.style.display = "none";
         if (faqSection) faqSection.style.display = "none";
         
         // Reset dashboard, show radar
-        dashboardView.style.display = "none";
-        radarPanel.style.display = "block";
+        if (dashboardView) dashboardView.style.display = "none";
+        if (radarPanel) radarPanel.style.display = "block";
 
         // Reset step animations
         scanSteps.forEach(step => {
@@ -132,12 +136,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let stepIdx = 0;
 
         function nextStep() {
-            if (stepIdx > 0) {
+            if (stepIdx > 0 && scanSteps[stepIdx - 1]) {
                 scanSteps[stepIdx - 1].classList.remove("active");
                 scanSteps[stepIdx - 1].classList.add("done");
             }
             if (stepIdx < scanSteps.length) {
-                scanSteps[stepIdx].classList.add("active");
+                if (scanSteps[stepIdx]) {
+                    scanSteps[stepIdx].classList.add("active");
+                }
                 stepIdx++;
                 setTimeout(nextStep, 1000 + Math.random() * 800);
             } else {
@@ -155,12 +161,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let stepIdx = 0;
 
         function nextStep() {
-            if (stepIdx > 0) {
+            if (stepIdx > 0 && scanSteps[stepIdx - 1]) {
                 scanSteps[stepIdx - 1].classList.remove("active");
                 scanSteps[stepIdx - 1].classList.add("done");
             }
             if (stepIdx < scanSteps.length) {
-                scanSteps[stepIdx].classList.add("active");
+                if (scanSteps[stepIdx]) {
+                    scanSteps[stepIdx].classList.add("active");
+                }
                 stepIdx++;
                 setTimeout(nextStep, 700);
             } else {
@@ -232,14 +240,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render reports based on actual Axe-core outputs
     function renderRealReport(results) {
-        radarPanel.style.display = "none";
-        dashboardView.style.display = "block";
+        if (radarPanel) radarPanel.style.display = "none";
+        if (dashboardView) dashboardView.style.display = "block";
 
         // Display AI Auto-Fixer Module for real code scans
         const aiFixCardEl = document.getElementById("ai-fix-card");
         if (aiFixCardEl) aiFixCardEl.style.display = "block";
 
-        resultUrl.innerText = "Custom HTML Block";
+        if (resultUrl) resultUrl.innerText = "Custom HTML Block";
 
         const violations = results.violations;
         const totalViolations = violations.length;
@@ -274,96 +282,99 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Calculate Lawsuit Risk
         let risk = "Low";
-        riskLevelText.className = "risk-level";
-        if (criticalCount >= 3 || totalViolations >= 5) {
-            risk = "High";
-            riskLevelText.classList.add("high");
-        } else if (totalViolations > 0) {
-            risk = "Medium";
-            riskLevelText.classList.add("medium");
-        } else {
-            riskLevelText.classList.add("low");
+        if (riskLevelText) {
+            riskLevelText.className = "risk-level";
+            if (criticalCount >= 3 || totalViolations >= 5) {
+                risk = "High";
+                riskLevelText.classList.add("high");
+            } else if (totalViolations > 0) {
+                risk = "Medium";
+                riskLevelText.classList.add("medium");
+            } else {
+                riskLevelText.classList.add("low");
+            }
+            riskLevelText.innerText = risk;
         }
-        riskLevelText.innerText = risk;
 
         // Update counts
-        countViolations.innerText = totalViolations;
+        if (countViolations) countViolations.innerText = totalViolations;
 
         // Populate dynamic accordion of actual violations
-        violationsList.innerHTML = "";
-        
-        if (totalViolations === 0) {
-            violationsList.innerHTML = `
-                <div style="text-align: center; padding: 40px; color: var(--success);">
-                    <svg style="width: 48px; height: 48px; margin-bottom: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    <h4>Outstanding! 100% WCAG Compliant</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">No accessibility violations were detected in your code. You are protected!</p>
-                </div>
-            `;
-            return;
-        }
-
-        violations.forEach((violation, idx) => {
-            const impactClass = (violation.impact === "critical" || violation.impact === "serious") ? "critical" : "warning";
-            const severityLabel = violation.impact.toUpperCase();
+        if (violationsList) {
+            violationsList.innerHTML = "";
             
-            // Build code fix content
-            const badCode = violation.nodes[0] ? escapeHtml(violation.nodes[0].html) : "<code>Target Node Missing</code>";
-            const fixGuideText = violation.help;
-            
-            // Create dynamic code fix example
-            let correctedCode = "";
-            if (violation.id === "image-alt") {
-                correctedCode = badCode.replace(">", ' alt="Detailed description of the image here">');
-            } else if (violation.id === "color-contrast") {
-                correctedCode = `/* CSS Fix */\n.text-element {\n  color: #1e1b4b; /* Darkened text color */\n  background-color: #ffffff; /* Fulfills WCAG AA 4.5:1 ratio */\n}`;
-            } else {
-                correctedCode = `${badCode}\n<!-- Suggested Fix: Ensure proper semantic nodes & ARIA attributes -->`;
+            if (totalViolations === 0) {
+                violationsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--success);">
+                        <svg style="width: 48px; height: 48px; margin-bottom: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        <h4>Outstanding! 100% WCAG Compliant</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">No accessibility violations were detected in your code. You are protected!</p>
+                    </div>
+                `;
+                return;
             }
 
-            const accordion = document.createElement("div");
-            accordion.className = "violation-accordion";
-            accordion.innerHTML = `
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <span class="violation-badge ${impactClass}">${severityLabel}</span>
-                        <span class="accordion-title">${violation.help}</span>
+            violations.forEach((violation, idx) => {
+                const impactClass = (violation.impact === "critical" || violation.impact === "serious") ? "critical" : "warning";
+                const severityLabel = violation.impact.toUpperCase();
+                
+                // Build code fix content
+                const badCode = violation.nodes[0] ? escapeHtml(violation.nodes[0].html) : "<code>Target Node Missing</code>";
+                
+                // Create dynamic code fix example
+                let correctedCode = "";
+                if (violation.id === "image-alt") {
+                    correctedCode = badCode.replace(">", ' alt="Detailed description of the image here">');
+                } else if (violation.id === "color-contrast") {
+                    correctedCode = `/* CSS Fix */\n.text-element {\n  color: #1e1b4b; /* Darkened text color */\n  background-color: #ffffff; /* Fulfills WCAG AA 4.5:1 ratio */\n}`;
+                } else {
+                    correctedCode = `${badCode}\n<!-- Suggested Fix: Ensure proper semantic nodes & ARIA attributes -->`;
+                }
+
+                const accordion = document.createElement("div");
+                accordion.className = "violation-accordion";
+                accordion.innerHTML = `
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="header-left">
+                            <span class="violation-badge ${impactClass}">${severityLabel}</span>
+                            <span class="accordion-title">${violation.help}</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
                     </div>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="wcag-rule-info">
-                        <strong>Rule Violation:</strong> <span>${violation.id}</span> | 
-                        <strong>Standard:</strong> <span>WCAG 2.1 (Level AA)</span>
-                    </div>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px;">${violation.description}</p>
-                    
-                    <div class="code-fix-block">
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element Code:</p>
-                        <pre class="code-box bad" data-lang="HTML"><code>${badCode}</code></pre>
+                    <div class="accordion-content">
+                        <div class="wcag-rule-info">
+                            <strong>Rule Violation:</strong> <span>${violation.id}</span> | 
+                            <strong>Standard:</strong> <span>WCAG 2.1 (Level AA)</span>
+                        </div>
+                        <p style="font-size: 0.9rem; margin-bottom: 12px;">${violation.description}</p>
                         
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
-                        <pre class="code-box good" data-lang="Corrected Code"><code>${escapeHtml(correctedCode)}</code></pre>
-                        
-                        <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
+                        <div class="code-fix-block">
+                            <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element Code:</p>
+                            <pre class="code-box bad" data-lang="HTML"><code>${badCode}</code></pre>
+                            
+                            <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
+                            <pre class="code-box good" data-lang="Corrected Code"><code>${escapeHtml(correctedCode)}</code></pre>
+                            
+                            <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
+                        </div>
                     </div>
-                </div>
-            `;
-            violationsList.appendChild(accordion);
-        });
+                `;
+                violationsList.appendChild(accordion);
+            });
+        }
     }
 
     // Render high-fidelity simulated report for external URLs (Dynamic Deterministic Engine)
     function renderSimulatedReport(url) {
-        radarPanel.style.display = "none";
-        dashboardView.style.display = "block";
+        if (radarPanel) radarPanel.style.display = "none";
+        if (dashboardView) dashboardView.style.display = "block";
 
         // Clean up URL formatting
         let cleanUrl = url.trim();
         if (!cleanUrl.startsWith("http")) {
             cleanUrl = "https://" + cleanUrl;
         }
-        resultUrl.innerText = cleanUrl;
+        if (resultUrl) resultUrl.innerText = cleanUrl;
 
         // Extract clean domain name and brand name
         let hostname = "website.com";
@@ -465,82 +476,91 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Set Risk Level
         let risk = "Low";
-        riskLevelText.className = "risk-level";
-        let criticals = selectedViolations.filter(v => v.badge === "critical").length;
-        
-        if (criticals >= 3 || mockScore < 70) {
-            risk = "High";
-            riskLevelText.classList.add("high");
-        } else if (criticals > 0 || mockScore < 90) {
-            risk = "Medium";
-            riskLevelText.classList.add("medium");
-        } else {
-            riskLevelText.classList.add("low");
+        if (riskLevelText) {
+            riskLevelText.className = "risk-level";
+            let criticals = selectedViolations.filter(v => v.badge === "critical").length;
+            
+            if (criticals >= 3 || mockScore < 70) {
+                risk = "High";
+                riskLevelText.classList.add("high");
+            } else if (criticals > 0 || mockScore < 90) {
+                risk = "Medium";
+                riskLevelText.classList.add("medium");
+            } else {
+                riskLevelText.classList.add("low");
+            }
+            riskLevelText.innerText = risk;
         }
-        riskLevelText.innerText = risk;
-        countViolations.innerText = selectedViolations.length;
+        
+        if (countViolations) countViolations.innerText = selectedViolations.length;
 
         // Render dynamic violation blocks
-        violationsList.innerHTML = "";
-        selectedViolations.forEach((violation, idx) => {
-            const isOpenClass = (idx === 0) ? "open" : "";
-            
-            const accordion = document.createElement("div");
-            accordion.className = `violation-accordion ${isOpenClass}`;
-            accordion.innerHTML = `
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <span class="violation-badge ${violation.badge}">${violation.badgeLabel}</span>
-                        <span class="accordion-title">${violation.title}</span>
+        if (violationsList) {
+            violationsList.innerHTML = "";
+            selectedViolations.forEach((violation, idx) => {
+                const isOpenClass = (idx === 0) ? "open" : "";
+                
+                const accordion = document.createElement("div");
+                accordion.className = `violation-accordion ${isOpenClass}`;
+                accordion.innerHTML = `
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="header-left">
+                            <span class="violation-badge ${violation.badge}">${violation.badgeLabel}</span>
+                            <span class="accordion-title">${violation.title}</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
                     </div>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="wcag-rule-info">
-                        <strong>Rule Violation:</strong> <span>${violation.id}</span> | 
-                        <strong>Standard:</strong> <span>${violation.standard}</span>
-                    </div>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px;">${violation.desc}</p>
-                    
-                    <div class="code-fix-block">
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element Code:</p>
-                        <pre class="code-box bad" data-lang="HTML"><code>${escapeHtml(violation.badCode)}</code></pre>
+                    <div class="accordion-content">
+                        <div class="wcag-rule-info">
+                            <strong>Rule Violation:</strong> <span>${violation.id}</span> | 
+                            <strong>Standard:</strong> <span>${violation.standard}</span>
+                        </div>
+                        <p style="font-size: 0.9rem; margin-bottom: 12px;">${violation.desc}</p>
                         
-                        <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
-                        <pre class="code-box good" data-lang="Corrected Code"><code>${escapeHtml(violation.goodCode)}</code></pre>
-                        
-                        <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
+                        <div class="code-fix-block">
+                            <p style="font-size: 0.85rem; font-weight: 600; color: #fca5a5;">Failing Element Code:</p>
+                            <pre class="code-box bad" data-lang="HTML"><code>${escapeHtml(violation.badCode)}</code></pre>
+                            
+                            <p style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0; margin-top: 10px;">Accessibility Correction Suggestion:</p>
+                            <pre class="code-box good" data-lang="Corrected Code"><code>${escapeHtml(violation.goodCode)}</code></pre>
+                            
+                            <button class="btn-copy-fix" onclick="copyCode(this)">Copy Corrected Code</button>
+                        </div>
                     </div>
-                </div>
-            `;
-            violationsList.appendChild(accordion);
-        });
+                `;
+                violationsList.appendChild(accordion);
+            });
+        }
     }
 
     // SVG Score Animate Function
     function animateScore(targetScore) {
         let currentScore = 0;
-        scoreVal.innerText = "0%";
+        if (scoreVal) scoreVal.innerText = "0%";
         
-        progressSvg.className = "radial-progress";
-        if (targetScore < 70) {
-            progressSvg.classList.add("fail");
-        } else if (targetScore < 90) {
-            progressSvg.classList.add("warning");
+        if (progressSvg) {
+            progressSvg.className = "radial-progress";
+            if (targetScore < 70) {
+                progressSvg.classList.add("fail");
+            } else if (targetScore < 90) {
+                progressSvg.classList.add("warning");
+            }
         }
 
         const circumference = 2 * Math.PI * 30; // r=30
-        progressCircle.style.strokeDasharray = circumference;
-        progressCircle.style.strokeDashoffset = circumference;
+        if (progressCircle) {
+            progressCircle.style.strokeDasharray = circumference;
+            progressCircle.style.strokeDashoffset = circumference;
+        }
 
         const interval = setInterval(() => {
             if (currentScore >= targetScore) {
                 clearInterval(interval);
             } else {
                 currentScore++;
-                scoreVal.innerText = `${currentScore}%`;
+                if (scoreVal) scoreVal.innerText = `${currentScore}%`;
                 const offset = circumference - (currentScore / 100) * circumference;
-                progressCircle.style.strokeDashoffset = offset;
+                if (progressCircle) progressCircle.style.strokeDashoffset = offset;
             }
         }, 15);
     }
@@ -564,48 +584,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnCheckout = document.getElementById("btn-checkout");
     const countdownVal = document.getElementById("countdown-val");
 
-    btnApply.addEventListener("click", () => {
-        const code = couponInput.value.trim().toUpperCase();
-        if (code === "LAUNCH20") {
-            // Check if coupon is expired (Launch: June 1, 2026 | Expiry: July 1, 2026)
-            const expiryDate = new Date("2026-07-01T23:59:59");
-            const currentDate = new Date();
-            
-            if (currentDate > expiryDate) {
-                alert("This promo code (LAUNCH20) expired on July 1, 2026. The 30-day launch campaign has successfully concluded.");
-                return;
-            }
-            
-            // Apply 20% discount on £299
-            strikePrice.style.display = "inline";
-            discountRow.style.display = "flex";
-            discountVal.innerText = "-£59.80";
-            finalPriceVal.innerText = "£239.20";
-            btnCheckout.innerText = "Secure Premium License - £239.20 / yr";
-            
-            // Systematically update the main pricing grid values
-            const gridStrike = document.getElementById("grid-strike-price");
-            const gridFinal = document.getElementById("grid-final-price");
-            if (gridStrike) gridStrike.style.display = "inline";
-            if (gridFinal) gridFinal.innerText = "£239.20";
-            
-            // Add custom visual glow
-            btnApply.style.background = "var(--success)";
-            btnApply.innerText = "APPLIED";
-            btnApply.disabled = true;
-            couponInput.disabled = true;
+    if (btnApply) {
+        btnApply.addEventListener("click", () => {
+            const code = couponInput ? couponInput.value.trim().toUpperCase() : "";
+            if (code === "LAUNCH20") {
+                // Check if coupon is expired (Launch: June 1, 2026 | Expiry: July 1, 2026)
+                const expiryDate = new Date("2026-07-01T23:59:59");
+                const currentDate = new Date();
+                
+                if (currentDate > expiryDate) {
+                    alert("This promo code (LAUNCH20) expired on July 1, 2026. The 30-day launch campaign has successfully concluded.");
+                    return;
+                }
+                
+                // Apply 20% discount on £299
+                if (strikePrice) strikePrice.style.display = "inline";
+                if (discountRow) discountRow.style.display = "flex";
+                if (discountVal) discountVal.innerText = "-£59.80";
+                if (finalPriceVal) finalPriceVal.innerText = "£239.20";
+                if (btnCheckout) btnCheckout.innerText = "Secure Premium License - £239.20 / yr";
+                
+                // Systematically update the main pricing grid values
+                const gridStrike = document.getElementById("grid-strike-price");
+                const gridFinal = document.getElementById("grid-final-price");
+                if (gridStrike) gridStrike.style.display = "inline";
+                if (gridFinal) gridFinal.innerText = "£239.20";
+                
+                // Add custom visual glow
+                btnApply.style.background = "var(--success)";
+                btnApply.innerText = "APPLIED";
+                btnApply.disabled = true;
+                if (couponInput) couponInput.disabled = true;
 
-            alert("LAUNCH20 Applied! 20% Launch Discount has been deducted.");
-        } else {
-            alert("Invalid Promo Code! Use code 'LAUNCH20' to get 20% discount.");
-        }
-    });
+                alert("LAUNCH20 Applied! 20% Launch Discount has been deducted.");
+            } else {
+                alert("Invalid Promo Code! Use code 'LAUNCH20' to get 20% discount.");
+            }
+        });
+    }
 
     // Mock interactive overlay accessibility widget previews
     const widgetIcon = document.getElementById("widget-icon");
-    widgetIcon.addEventListener("click", () => {
-        alert("🛡️ LegAlly Accessibility Overlay Widget Mock!\n\nThis is a premium widget module. In the premium tier (£239/yr), pasting a single-line script tag onto your site loads this floating button. It lets disabled visitors toggle text resizing, high contrast filters, screen readers, and keyboard navigation guides on-the-fly, giving you instantly improved legal protection!");
-    });
+    if (widgetIcon) {
+        widgetIcon.addEventListener("click", () => {
+            alert("🛡️ LegAlly Accessibility Overlay Widget Mock!\n\nThis is a premium widget module. In the premium tier (£239/yr), pasting a single-line script tag onto your site loads this floating button. It lets disabled visitors toggle text resizing, high contrast filters, screen readers, and keyboard navigation guides on-the-fly, giving you instantly improved legal protection!");
+        });
+    }
 
     // Premium PDF Purchase modal logic
     const pdfModal = document.getElementById("pdf-modal");
@@ -615,37 +639,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const payEmail = document.getElementById("pay-email");
     const payCard = document.getElementById("pay-card");
 
-    premiumBtn.addEventListener("click", () => {
-        pdfModal.style.display = "flex";
-    });
+    if (premiumBtn) {
+        premiumBtn.addEventListener("click", () => {
+            if (pdfModal) pdfModal.style.display = "flex";
+        });
+    }
 
-    cancelModalBtn.addEventListener("click", () => {
-        pdfModal.style.display = "none";
-    });
+    if (cancelModalBtn) {
+        cancelModalBtn.addEventListener("click", () => {
+            if (pdfModal) pdfModal.style.display = "none";
+        });
+    }
 
-    confirmPaymentBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const email = payEmail.value.trim();
-        const card = payCard.value.trim();
+    if (confirmPaymentBtn) {
+        confirmPaymentBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const email = payEmail ? payEmail.value.trim() : "";
+            const card = payCard ? payCard.value.trim() : "";
 
-        if (!email || !card) {
-            alert("Please fill in your payment details first.");
-            return;
-        }
+            if (!email || !card) {
+                alert("Please fill in your payment details first.");
+                return;
+            }
 
-        pdfModal.style.display = "none";
-        alert("Payment Successful! Generating your premium white-labeled PDF Accessibility Compliance Audit...");
-        
-        // Open native print window which styles dashboard for a gorgeous PDF printout
-        window.print();
-    });
+            if (pdfModal) pdfModal.style.display = "none";
+            alert("Payment Successful! Generating your premium white-labeled PDF Accessibility Compliance Audit...");
+            
+            // Open native print window which styles dashboard for a gorgeous PDF printout
+            window.print();
+        });
+    }
 
     // Live active license counter FOMO logic
     let remainingLicenses = 14;
     const licenseInterval = setInterval(() => {
         if (remainingLicenses > 3) {
             remainingLicenses -= Math.floor(Math.random() * 2);
-            countdownVal.innerText = remainingLicenses;
+            if (countdownVal) countdownVal.innerText = remainingLicenses;
         } else {
             clearInterval(licenseInterval);
         }
@@ -653,27 +683,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Dynamic FAQ accordion handler
     window.toggleFaq = (header) => {
+        if (!header) return;
         const accordion = header.parentElement;
-        accordion.classList.toggle("open");
+        if (accordion) accordion.classList.toggle("open");
     };
 
     // Make global functions accessible to inline events
     window.toggleAccordion = (header) => {
+        if (!header) return;
         const accordion = header.parentElement;
-        accordion.classList.toggle("open");
+        if (accordion) accordion.classList.toggle("open");
     };
 
     window.copyCode = (btn) => {
+        if (!btn) return;
         const codeBox = btn.parentElement.querySelector(".code-box.good code");
-        navigator.clipboard.writeText(codeBox.innerText).then(() => {
-            const originalText = btn.innerText;
-            btn.innerText = "COPIED!";
-            btn.style.background = "var(--success)";
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = "rgba(255, 255, 255, 0.05)";
-            }, 1500);
-        });
+        if (codeBox) {
+            navigator.clipboard.writeText(codeBox.innerText).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "COPIED!";
+                btn.style.background = "var(--success)";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "rgba(255, 255, 255, 0.05)";
+                }, 1500);
+            });
+        }
     };
 
     window.loadLegalTab = (tabName) => {
@@ -682,21 +717,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tabBtns.forEach(btn => {
             btn.classList.remove("active");
-            if (btn.getAttribute("onclick").includes(tabName)) {
+            const onclickAttr = btn.getAttribute("onclick");
+            if (onclickAttr && onclickAttr.includes(tabName)) {
                 btn.classList.add("active");
             }
         });
 
         // Inject text from legal.js
-        if (typeof LegalDocs !== "undefined" && LegalDocs[tabName]) {
+        if (bodyContent && typeof LegalDocs !== "undefined" && LegalDocs[tabName]) {
             bodyContent.innerHTML = LegalDocs[tabName];
         }
     };
 
     window.openLegalInFooter = (docName) => {
         // Toggle view
-        mainSection.style.display = "none";
-        legalView.style.display = "block";
+        if (mainSection) mainSection.style.display = "none";
+        if (legalView) legalView.style.display = "block";
         
         // Mark link as active
         navLinks.forEach(l => {
@@ -711,13 +747,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.resetScanner = () => {
-        heroSection.style.display = "block";
-        scanContainer.style.display = "block";
+        if (heroSection) heroSection.style.display = "block";
+        if (scanContainer) scanContainer.style.display = "block";
         if (testimonialsSection) testimonialsSection.style.display = "block";
         if (faqSection) faqSection.style.display = "block";
-        dashboardView.style.display = "none";
-        urlInput.value = "";
-        htmlInput.value = "";
+        if (dashboardView) dashboardView.style.display = "none";
+        if (urlInput) urlInput.value = "";
+        if (htmlInput) htmlInput.value = "";
     };
 
     // ==========================================
@@ -897,8 +933,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const certDatePreview = document.getElementById("cert-date-preview");
     
     window.openLitigationCenter = () => {
-        mainSection.style.display = "none";
-        legalView.style.display = "none";
+        if (mainSection) mainSection.style.display = "none";
+        if (legalView) legalView.style.display = "none";
         if (litigationView) litigationView.style.display = "block";
         
         // Populate default date values
@@ -910,21 +946,21 @@ document.addEventListener("DOMContentLoaded", () => {
     
     window.closeLitigationCenter = () => {
         if (litigationView) litigationView.style.display = "none";
-        mainSection.style.display = "block";
+        if (mainSection) mainSection.style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     
     window.updateLitigationDocs = () => {
-        const companyVal = litCompany.value.trim() || "[Your Company Name]";
-        const domainVal = litDomain.value.trim() || "[Your Domain URL]";
+        const companyVal = litCompany ? litCompany.value.trim() : "";
+        const domainVal = litDomain ? litDomain.value.trim() : "";
         
-        if (certCompanyPreview) certCompanyPreview.innerText = companyVal;
-        if (certDomainPreview) certDomainPreview.innerText = domainVal;
+        if (certCompanyPreview) certCompanyPreview.innerText = companyVal || "[Your Company Name]";
+        if (certDomainPreview) certDomainPreview.innerText = domainVal || "[Your Domain URL]";
     };
     
     window.printLitigationCert = () => {
-        const companyVal = litCompany.value.trim();
-        const domainVal = litDomain.value.trim();
+        const companyVal = litCompany ? litCompany.value.trim() : "";
+        const domainVal = litDomain ? litDomain.value.trim() : "";
         
         if (!companyVal || !domainVal) {
             alert("Please setup your Company Name and Website Domain URL first in the setup fields.");
@@ -941,8 +977,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     
     window.copyLitigationStatement = (btn) => {
-        const companyVal = litCompany.value.trim() || "[Your Company Name]";
-        const domainVal = litDomain.value.trim() || "[Your Domain URL]";
+        if (!btn) return;
+        const companyVal = (litCompany && litCompany.value.trim()) || "[Your Company Name]";
+        const domainVal = (litDomain && litDomain.value.trim()) || "[Your Domain URL]";
         const dateVal = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         
         const statementHTML = `
@@ -1009,7 +1046,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. Lead Capturing & PDF scorecard downloads
     window.generateLeadScorecard = (e) => {
         e.preventDefault();
-        const email = document.getElementById("lead-email").value.trim();
+        const leadEmailEl = document.getElementById("lead-email");
+        const email = leadEmailEl ? leadEmailEl.value.trim() : "";
         if (!email) return;
         
         alert("📩 Thank you! Accessibility scorecard created successfully.\n\nOpening print window to download your White-labeled compliance PDF...");
@@ -1018,6 +1056,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 6. Embeddable trust badge copy logic
     window.copyBadgeEmbed = (btn) => {
+        if (!btn) return;
         const embedCode = `<a href="https://uselegally.com" target="_blank" title="Verified accessible by LegAlly WCAG compliance auditor"><div style="background:rgba(10,15,30,0.9);border:1px solid #22c55e;padding:12px 20px;border-radius:12px;display:inline-flex;align-items:center;gap:12px;font-family:sans-serif;color:#fff;"><span style="font-size:1.6rem;">🛡️</span><div style="text-align:left;"><span style="font-size:0.65rem;color:#a3a3a3;display:block;text-transform:uppercase;letter-spacing:1px;">Verified Accessible</span><strong style="font-size:0.85rem;color:#fff;">LegAlly Certified</strong></div></div></a>`;
         
         navigator.clipboard.writeText(embedCode).then(() => {
