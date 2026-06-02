@@ -131,6 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function transitionToScanning() {
+        // Smoothly scroll to the very top so the scanning radar is perfectly centered and visible
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         // Hide standard landing page elements
         if (heroSection) heroSection.style.display = "none";
         if (scanContainer) scanContainer.style.display = "none";
