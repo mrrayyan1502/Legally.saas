@@ -556,6 +556,21 @@ document.addEventListener("DOMContentLoaded", () => {
         let currentScore = 0;
         if (scoreVal) scoreVal.innerText = "0%";
         
+        // Dynamically update the compliance status label based on the target score
+        const scoreLabel = document.getElementById("score-label");
+        if (scoreLabel) {
+            if (targetScore >= 90) {
+                scoreLabel.innerText = "Passes Basic Audit";
+                scoreLabel.style.color = "var(--success)";
+            } else if (targetScore >= 70) {
+                scoreLabel.innerText = "Needs Improvement";
+                scoreLabel.style.color = "var(--warning)";
+            } else {
+                scoreLabel.innerText = "Fails Basic Audit";
+                scoreLabel.style.color = "var(--danger)";
+            }
+        }
+        
         if (progressSvg) {
             progressSvg.className = "radial-progress";
             if (targetScore < 70) {
