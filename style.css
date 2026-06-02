@@ -1376,3 +1376,237 @@ footer {
         align-items: stretch;
     }
 }
+
+/* ==========================================
+   LegAlly Premium Optimization Overhaul Styles
+   ========================================== */
+
+/* 3-Tier Pricing Section */
+.pricing-section {
+    margin-top: 60px;
+    padding: 60px 30px;
+    background: rgba(10, 15, 30, 0.35);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.pricing-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 35px 24px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.pricing-card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.08);
+}
+
+.pricing-card.popular {
+    border: 2px solid var(--primary);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    transform: scale(1.02);
+}
+
+.pricing-card.popular:hover {
+    transform: scale(1.02) translateY(-4px);
+}
+
+.popular-tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 14px;
+    border-radius: 30px;
+    letter-spacing: 1px;
+}
+
+.pricing-card h3 {
+    font-size: 1.3rem;
+    font-family: 'Outfit', sans-serif;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.price-val {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 15px 0;
+    font-family: 'Outfit', sans-serif;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.price-val span {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.strike-pricing {
+    font-size: 1.5rem !important;
+    text-decoration: line-through;
+    color: var(--text-dark) !important;
+    margin-right: 8px;
+    opacity: 0.6;
+}
+
+.plan-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+    min-height: 40px;
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.plan-features li {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feat-icon {
+    color: var(--success);
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.btn-pricing-starter {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--border-color) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
+.btn-pricing-starter:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Compliance History SVG line chart styling */
+.chart-line {
+    fill: none;
+    stroke: var(--success);
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.4));
+}
+
+.chart-point {
+    fill: #fff;
+    stroke: var(--success);
+    stroke-width: 3;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.chart-point:hover {
+    r: 7;
+    fill: var(--success);
+}
+
+.chart-grid-line {
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 1;
+    stroke-dasharray: 4;
+}
+
+/* Litigation center view layout */
+.litigation-view {
+    max-width: 1000px;
+    margin: 40px auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Scarcity Ever-green countdown display styling */
+.pricing-timer {
+    animation: alertPulse 3s infinite;
+}
+
+@keyframes alertPulse {
+    0%, 100% { border-color: rgba(239,68,68,0.15); box-shadow: none; }
+    50% { border-color: rgba(239,68,68,0.3); box-shadow: 0 0 10px rgba(239,68,68,0.05); }
+}
+
+/* Print modifications for Litigation Certificate */
+@media print {
+    body.printing-litigation-cert {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    body.printing-litigation-cert .app-container > *:not(#litigation-view) {
+        display: none !important;
+    }
+    
+    body.printing-litigation-cert #litigation-view {
+        display: block !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    body.printing-litigation-cert #litigation-view *:not(#certificate-print-area) {
+        display: none !important;
+    }
+    
+    body.printing-litigation-cert #certificate-print-area {
+        display: block !important;
+        position: absolute !important;
+        left: 5% !important;
+        top: 10% !important;
+        width: 90% !important;
+        border: 4px double #fbbf24 !important;
+        background: transparent !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+        padding: 40px !important;
+        border-radius: 12px !important;
+    }
+    
+    body.printing-litigation-cert #certificate-print-area strong, 
+    body.printing-litigation-cert #certificate-print-area h3 {
+        color: #000000 !important;
+    }
+}
+

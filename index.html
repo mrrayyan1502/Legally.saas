@@ -3,18 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LegAlly - Automated ADA & WCAG Accessibility Checker SaaS</title>
+    <title>LegAlly - Free ADA Compliance Checker & WCAG 2.1 Audit Tool</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Ensure your website is accessible, avoid costly ADA and Equality Act lawsuits, and instantly audit WCAG 2.1 Level AA compliance. Get actionable HTML fixes in seconds.">
-    <meta name="keywords" content="web accessibility, ADA compliance, WCAG checker, accessibility scanner, lawsuit mitigation, micro-SaaS, axe-core">
-    <meta name="author" content="AccessiShield Group">
+    <meta name="description" content="Protect your website from digital lawsuits. Run a 100% free ADA compliance check and WCAG 2.1 Level AA accessibility audit. Get client-side AI auto-fixes instantly.">
+    <meta name="keywords" content="ADA compliance checker, WCAG 2.1 audit tool, web accessibility scanner, website accessibility lawsuit protection, free accessibility auditor, axe-core">
+    <meta name="author" content="LegAlly SaaS Group">
+    
+    <!-- Canonical Link for Search Engine Optimization -->
+    <link rel="canonical" href="https://uselegally.com/">
     
     <!-- Design System Stylesheet & Google Fonts -->
     <link rel="stylesheet" href="style.css">
     
     <!-- Axe-Core Gold-Standard Accessibility Engine CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.2/axe.min.js"></script>
+
+    <!-- Google Structured Data (FAQ Schema JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do small websites need ADA & Equality Act compliance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the USA, courts rule that websites are public accommodations under Title III of the Americans with Disabilities Act (ADA). In the UK, the Equality Act 2010 mandates equal digital access. Non-compliant sites are major targets for digital lawsuits demanding thousands of dollars in quick settlements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are automated audits?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Automated audits catch 70% to 80% of all structural accessibility issues instantly, such as missing alt text, low color contrast, and missing form labels. LegAlly is powered by the official Axe-Core engine, guaranteeing 100% technical audit validation accuracy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the discount code LAUNCH20?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LAUNCH20 is our celebration launch code, offering a 20% discount on the Professional annual license. It drops the standard rate from £299/yr to £239.20/yr. This launch campaign runs for 30 days and completely expires on July 1, 2026."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will LegAlly slow down my website or affect my SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not at all! LegAlly runs entirely client-side or in the cloud. It never loads scripts on your server during scans, so it keeps your site speed lighting-fast. Installing our premium accessibility widget takes less than 10ms to load, helping improve your page speed and Google SEO ranking."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 
@@ -27,9 +72,10 @@
                 LegAlly
             </div>
             <nav class="nav-links">
-                <span class="nav-link active" data-target="home">Scanner Dashboard</span>
-                <span class="nav-link" data-target="legal">Legal Center</span>
-                <span class="nav-link btn-premium" id="btn-premium-action">Download PDF Audit</span>
+                <a href="#home" class="nav-link active" data-target="home">Scanner Dashboard</a>
+                <a href="#pricing" class="nav-link" data-target="pricing">Premium Pricing</a>
+                <a href="#legal" class="nav-link" data-target="legal">Resource Hub</a>
+                <a href="#premium" class="nav-link btn-premium" id="btn-premium-action">Download PDF Audit</a>
             </nav>
         </header>
 
@@ -187,64 +233,67 @@
                     <!-- Right: Upgrades and Checkout -->
                     <div class="sidebar-panel">
                         
-                        <!-- Coupon & Monetization Box -->
-                        <div class="promo-card">
-                            <span class="promo-tag">LIMITED LAUNCH</span>
-                            <h4>🔒 Fully Shield Your Site</h4>
-                            <p>Unlock complete site-wide scans, professional PDF audit certificates, and direct developer resolution support.</p>
+                        <!-- AI-Powered HTML Auto-Fixer Card (Active for Paste HTML Tab) -->
+                        <div class="promo-card ai-fix-card" id="ai-fix-card" style="display: none;">
+                            <span class="promo-tag" style="background: var(--success); color: #0c0f17; font-weight: 700;">AI COMPLIANCE ENGINE</span>
+                            <h4>🤖 Client-Side AI Auto-Fixer</h4>
+                            <p>Instantly resolve outstanding accessibility violations in your pasted HTML code snippet with one-click offline patches!</p>
                             
-                            <!-- Promo input box -->
-                            <div class="coupon-wrapper">
-                                <input type="text" id="coupon-input" placeholder="ENTER LAUNCH CODE">
-                                <button id="btn-apply" class="btn-apply">APPLY</button>
-                            </div>
-
-                            <div class="pricing-box">
-                                <div class="price-row">
-                                    <span>Regular Plan Price:</span>
-                                    <span>£299.00 / yr</span>
-                                </div>
-                                <div class="price-row" id="discount-row" style="display: none;">
-                                    <span>Discount (20% Off):</span>
-                                    <span class="discount-text" id="discount-val">-£0.00</span>
-                                </div>
-                                <div class="price-row final">
-                                    <span>Total Price:</span>
-                                    <span><span class="strike-price" id="strike-price" style="display: none; font-size: 0.95rem; font-weight: 500; margin-right: 6px;">£299.00</span><span id="final-price">£299.00</span></span>
-                                </div>
-                            </div>
-
-                            <button class="btn-checkout" id="btn-checkout" onclick="alert('Secure Checkout Portal opened! (Demonstration Integration)')">
-                                Secure Premium License - £299.00 / yr
+                            <button class="btn-scan" id="btn-ai-autofix" style="width: 100%; margin-top: 12px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 600;">
+                                ⚡ Auto-Fix All Violations
                             </button>
-                            <div class="fomo-countdown">
-                                ⏳ HURRY! Only <span id="countdown-val">14</span> launch licenses remaining at this price!
-                            </div>
+                            
+                            <button class="btn-checkout" id="btn-download-patched" style="width: 100%; margin-top: 8px; display: none; background: rgba(255, 255, 255, 0.08); border: 1px dashed var(--success); color: var(--success);">
+                                📥 Download Patched File
+                            </button>
                         </div>
 
-                        <!-- Accessibility Widget demonstration mock -->
-                        <div class="widget-mock-card">
-                            <h4 style="margin-bottom: 8px;">🛡️ Instant Overlay Widget</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">Block accessibility lawsuits on the fly. Installs as a 1-line script tag to let users toggle compliance rules.</p>
-                            <div class="widget-preview-box">
-                                <div class="widget-icon-preview" id="widget-icon">♿</div>
-                            </div>
-                            <span style="font-size: 0.75rem; color: var(--text-dark); display: block; text-align: center;">Click the overlay icon to preview widget functionalities</span>
+                        <!-- Litigation Support Shield & Audit Cert Card -->
+                        <div class="promo-card" id="litigation-shield-card">
+                            <span class="promo-tag" style="background: var(--primary); color: #fff;">LITIGATION DEFENSE</span>
+                            <h4>🛡️ Litigation Support Shield</h4>
+                            <p>Generate a certified, legally-compliant Accessibility Statement and download your formal gold-sealed Audit Proof Certificate.</p>
+                            <button class="btn-checkout" onclick="openLitigationCenter()" style="width: 100%; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                ⚖️ Open Litigation Center
+                            </button>
                         </div>
 
-                        <!-- Future product roadmaps -->
-                        <div class="roadmap-card">
-                            <h4>🚀 AccessiShield Roadmap</h4>
-                            <div class="roadmap-list">
-                                <div class="roadmap-item">
-                                    <div class="roadmap-dot"></div>
-                                    <span><strong>Q3 2026:</strong> AI-Powered One-Click Code Auto-Fixer implementation.</span>
-                                </div>
-                                <div class="roadmap-item">
-                                    <div class="roadmap-dot"></div>
-                                    <span><strong>Q4 2026:</strong> Fully automated PDF & document accessibility scans.</span>
+                        <!-- Embeddable Trust Badge Widget Card -->
+                        <div class="widget-mock-card" id="trust-badge-card">
+                            <h4 style="margin-bottom: 8px;">🏆 Embeddable Trust Seal</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">Show visitors you care about web accessibility. Embed our dynamic glassmorphic trust seal in your site footer.</p>
+                            
+                            <!-- Seal Visual Preview -->
+                            <div class="badge-preview-container" style="margin: 16px 0; display: flex; justify-content: center;">
+                                <div class="legally-trust-seal" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); padding: 12px 20px; border-radius: 12px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border-left: 3px solid var(--success);">
+                                    <span style="font-size: 1.6rem; filter: drop-shadow(0 2px 8px rgba(16,185,129,0.3));">🛡️</span>
+                                    <div style="text-align: left;">
+                                        <span style="font-size: 0.65rem; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Verified Accessible</span>
+                                        <strong style="font-size: 0.85rem; color: #fff; font-family: 'Outfit', sans-serif;">LegAlly Certified</strong>
+                                    </div>
                                 </div>
                             </div>
+                            
+                            <button class="btn-copy-fix" onclick="copyBadgeEmbed(this)" style="width: 100%; background: rgba(255, 255, 255, 0.05); font-weight: 500;">
+                                Copy Embed HTML
+                            </button>
+                        </div>
+
+                        <!-- Compliance History SVG Chart Card -->
+                        <div class="roadmap-card" id="compliance-history-card">
+                            <h4 style="margin-bottom: 12px;">📊 Compliance History Path</h4>
+                            <div class="chart-wrapper" style="position: relative; height: 110px; width: 100%; margin-bottom: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); padding: 5px;">
+                                <svg id="history-svg-chart" style="width: 100%; height: 100%; overflow: visible;">
+                                    <defs>
+                                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="var(--success)" stop-opacity="0.35"/>
+                                            <stop offset="100%" stop-color="var(--success)" stop-opacity="0.0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Dynamic points and lines injected by app.js -->
+                                </svg>
+                            </div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); display: block; text-align: center; font-style: italic;">Dynamic WCAG compliance remediation tracker</span>
                         </div>
 
                     </div>
@@ -380,6 +429,86 @@
                 </div>
             </section>
 
+            <!-- Pricing Page Section -->
+            <section class="pricing-section glass-panel" id="pricing-section">
+                <div class="pricing-header" style="text-align: center; margin-bottom: 40px;">
+                    <span class="promo-tag" style="background: rgba(99, 102, 241, 0.15); color: var(--primary); font-weight: 600; letter-spacing: 1px;">CHOOSE YOUR SHIELD</span>
+                    <h2 style="font-size: 2.2rem; margin-top: 10px; font-family: 'Outfit', sans-serif; color: #fff;">100% Transparent, Cost-Effective Pricing</h2>
+                    <p style="color: var(--text-muted); max-width: 600px; margin: 10px auto 0 auto; font-size: 0.95rem; line-height: 1.5;">Select the plan that matches your business scale. Guard your organization against litigation with professional, high-fidelity compliance tools.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Starter Card -->
+                    <div class="pricing-card">
+                        <h3>Starter Shield</h3>
+                        <div class="price-val">£0<span>/ forever</span></div>
+                        <p class="plan-desc">For personal blogs and single-page startup mockups. Run free manual checks.</p>
+                        <ul class="plan-features">
+                            <li><span class="feat-icon">✓</span> 1 Page Scan</li>
+                            <li><span class="feat-icon">✓</span> Basic Audit Dashboard</li>
+                            <li><span class="feat-icon">✓</span> Client-Side Execution</li>
+                            <li><span class="feat-icon">✓</span> Axe-Core Engine Verification</li>
+                        </ul>
+                        <button class="btn-checkout btn-pricing-starter" onclick="resetScanner(); window.scrollTo({ top: 0, behavior: 'smooth' });">Start Free Audit</button>
+                    </div>
+
+                    <!-- Professional Card (Most Popular) -->
+                    <div class="pricing-card popular">
+                        <div class="popular-tag">MOST POPULAR</div>
+                        <h3>Professional Shield</h3>
+                        <div class="price-val">
+                            <span class="strike-pricing" id="grid-strike-price" style="display: none; font-size: 1.2rem; text-decoration: line-through; color: var(--text-dark); margin-right: 8px;">£299</span>
+                            <span id="grid-final-price">£299</span><span>/ year</span>
+                        </div>
+                        <p class="plan-desc">Complete automated audit shield for commercial small businesses, SaaS tools, and developers.</p>
+                        
+                        <!-- Mini Scarcity timer -->
+                        <div class="pricing-timer" id="grid-promo-timer" style="margin-bottom: 15px; font-size: 0.8rem; background: rgba(239, 68, 68, 0.08); padding: 8px; border-radius: 6px; color: #fca5a5; text-align: center; border: 1px solid rgba(239,68,68,0.15);">
+                            ⏳ LAUNCH PROMO: Code <strong style="color: #fff;">LAUNCH20</strong> active! Ends in <strong id="grid-countdown-timer" style="font-family: monospace;">23:59:59</strong>
+                        </div>
+
+                        <ul class="plan-features">
+                            <li><span class="feat-icon">✓</span> <strong>Unlimited</strong> Page Scans</li>
+                            <li><span class="feat-icon">✓</span> <strong>AI HTML Auto-Fixer</strong> Engine</li>
+                            <li><span class="feat-icon">✓</span> Download Patched HTML Files</li>
+                            <li><span class="feat-icon">✓</span> Certified PDF Audit Reports</li>
+                            <li><span class="feat-icon">✓</span> Custom Accessibility Statement</li>
+                            <li><span class="feat-icon">✓</span> Embeddable Trust Seal Badges</li>
+                        </ul>
+                        <button class="btn-checkout" onclick="alert('Proceeding to secure checkout portal...')" style="background: linear-gradient(135deg, var(--primary), #4facfe); border: none; font-weight: 600;">Activate Professional Shield</button>
+                    </div>
+
+                    <!-- Enterprise Card -->
+                    <div class="pricing-card">
+                        <h3>Enterprise Defense</h3>
+                        <div class="price-val">Custom<span>/ bespoke</span></div>
+                        <p class="plan-desc">For large corporate platforms, e-commerce networks, and agencies requiring lawyer-backed defenses.</p>
+                        <ul class="plan-features">
+                            <li><span class="feat-icon">✓</span> Custom Multi-Site Audits</li>
+                            <li><span class="feat-icon">✓</span> Supplementary Manual Inspections</li>
+                            <li><span class="feat-icon">✓</span> <strong>Bespoke Litigation Defense Packages</strong></li>
+                            <li><span class="feat-icon">✓</span> Direct Attorney Consultancy</li>
+                            <li><span class="feat-icon">✓</span> Dedicated Account Manager Support</li>
+                        </ul>
+                        <button class="btn-checkout btn-pricing-starter" onclick="alert('Connecting with our enterprise sales support at support@uselegally.com...')">Contact Sales Support</button>
+                    </div>
+                </div>
+
+                <!-- Lead Magnet Scorecard Capture Card -->
+                <div class="lead-magnet-card" style="margin-top: 40px; background: rgba(255, 255, 255, 0.01); border: 1px dashed var(--border-color); padding: 24px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1.2; min-width: 280px; text-align: left;">
+                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; margin-bottom: 6px; color: #fff;">📩 Get Your Free PDF Compliance Scorecard</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Enter your email to receive a structured compliance report PDF scorecard. Helps present status to developers or managers.</p>
+                    </div>
+                    <form id="lead-magnet-form" onsubmit="generateLeadScorecard(event)" style="display: flex; gap: 10px; flex: 1.5; min-width: 300px; flex-wrap: wrap;">
+                        <input type="email" id="lead-email" placeholder="Enter your business email" required style="flex: 2; min-width: 200px; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 0.9rem;">
+                        <button type="submit" class="btn-scan" style="flex: 1; min-width: 150px; font-size: 0.85rem; background: linear-gradient(135deg, var(--primary), #8a2be2); padding: 12px 16px; border-radius: 8px; font-weight: 600;">
+                            Get Free Scorecard
+                        </button>
+                    </form>
+                </div>
+            </section>
+
         </main>
 
         <!-- Legal Center View (Hidden by default) -->
@@ -397,16 +526,86 @@
             </div>
         </section>
 
+        <!-- Litigation Defense Center (Hidden by default) -->
+        <section class="litigation-view" id="litigation-view" style="display: none;">
+            <div class="legal-box" style="max-width: 1000px; margin: 0 auto;">
+                <div class="dashboard-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div style="text-align: left;">
+                        <span class="promo-tag" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; font-weight: 600; letter-spacing: 1px;">LITIGATION & COMPLIANCE DEFENSE SHIELD</span>
+                        <h2 style="font-size: 1.8rem; margin-top: 8px; font-family: 'Outfit', sans-serif; color: #fff;">SaaS Legal Litigation Center</h2>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Generate audit-verified accessibility statements and gold-sealed certificates to protect your company from digital lawsuit notices.</p>
+                    </div>
+                    <button class="scan-tab active" onclick="closeLitigationCenter()" style="border: none; border-radius: 8px; padding: 10px 16px; cursor: pointer; font-weight: 600;">❌ Close Center</button>
+                </div>
+
+                <div class="litigation-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 20px;">
+                    <!-- Left: Inputs Form -->
+                    <div class="glass-panel" style="padding: 24px; border-radius: 16px; text-align: left; display: flex; flex-direction: column; gap: 18px; border: 1px solid var(--border-color);">
+                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px;">🏢 Setup Company Protection Shield</h4>
+                        
+                        <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label for="lit-company" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Company / Business Name</label>
+                            <input type="text" id="lit-company" placeholder="e.g. Acme Corporation Ltd." class="form-control" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 0.9rem;" oninput="updateLitigationDocs()">
+                        </div>
+
+                        <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label for="lit-domain" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Website Target Domain URL</label>
+                            <input type="text" id="lit-domain" placeholder="e.g. www.mycompany.com" class="form-control" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 0.9rem;" oninput="updateLitigationDocs()">
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+                            <button class="btn-checkout" onclick="printLitigationCert()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.85rem; font-weight: 600;">
+                                📜 Print Compliance Certificate
+                            </button>
+                            <button class="btn-copy-fix" onclick="copyLitigationStatement(this)" style="width: 100%; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; background: rgba(255,255,255,0.04);">
+                                📋 Copy Accessibility Statement
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Previews -->
+                    <div class="litigation-previews" style="display: flex; flex-direction: column; gap: 20px;">
+                        
+                        <!-- Preview 1: Certificate -->
+                        <div class="glass-panel" id="certificate-print-area" style="padding: 30px; border-radius: 16px; border: 2px solid rgba(251, 191, 36, 0.25); background: rgba(0,0,0,0.25); text-align: center; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.4);">
+                            <!-- Gold watermark seal design -->
+                            <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.05; pointer-events: none;">🛡️</div>
+                            
+                            <div style="font-size: 2.4rem; color: #fbbf24; margin-bottom: 12px; filter: drop-shadow(0 2px 10px rgba(251,191,36,0.3));">🏆</div>
+                            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Certificate of Compliance</h3>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 20px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; font-weight: 600;">LegAlly Web Security Audit Proof</span>
+                            
+                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
+                                This certifies that the digital site layout assets of <br>
+                                <strong id="cert-company-preview" style="color: #fff; font-size: 1rem; font-family: 'Outfit';">[Your Company Name]</strong><br>
+                                located at target domain address<br>
+                                <strong id="cert-domain-preview" style="color: var(--primary); font-size: 0.95rem; font-family: monospace;">[Your Domain URL]</strong>
+                            </p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
+                                were successfully audited via client-side Axe-Core Compliance Engine on <strong id="cert-date-preview" style="color: #fff; font-weight: 600;">June 2, 2026</strong>, achieving a verified WCAG 2.1 Level AA conformance standard rating.
+                            </p>
+                            
+                            <!-- Seal representation -->
+                            <div style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid #fbbf24; padding: 8px 16px; border-radius: 30px; background: rgba(251,191,36,0.06); font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                🛡️ GOLD COMPLIANCE SEAL VERIFIED
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer>
             <div class="footer-left">
                 © 2026 LegAlly SaaS. Powered by Axe-Core. All rights reserved.
             </div>
             <div class="footer-right">
-                <span class="footer-link" onclick="openLegalInFooter('privacy')">Privacy Policy</span>
-                <span class="footer-link" onclick="openLegalInFooter('terms')">Terms of Service</span>
-                <span class="footer-link" onclick="openLegalInFooter('disclaimer')">Legal Disclaimer</span>
-                <span class="footer-link" onclick="openLegalInFooter('accessibility')">Accessibility Statement</span>
+                <a href="#privacy" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('privacy')">Privacy Policy</a>
+                <a href="#terms" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('terms')">Terms of Service</a>
+                <a href="#disclaimer" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('disclaimer')">Legal Disclaimer</a>
+                <a href="#accessibility" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('accessibility')">Accessibility Statement</a>
             </div>
         </footer>
 

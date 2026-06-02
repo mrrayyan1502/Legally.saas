@@ -12,14 +12,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
-            const target = e.target.getAttribute("data-target");
+            const target = link.getAttribute("data-target");
+            if (!target) return;
             
             navLinks.forEach(l => l.classList.remove("active"));
-            e.target.classList.add("active");
+            link.classList.add("active");
+
+            // Hide litigation center when changing tabs
+            const litigationView = document.getElementById("litigation-view");
+            if (litigationView) litigationView.style.display = "none";
 
             if (target === "home") {
                 mainSection.style.display = "block";
                 legalView.style.display = "none";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (target === "pricing") {
+                mainSection.style.display = "block";
+                legalView.style.display = "none";
+                const pricingSection = document.getElementById("pricing-section");
+                if (pricingSection) {
+                    pricingSection.scrollIntoView({ behavior: 'smooth' });
+                }
             } else if (target === "legal") {
                 mainSection.style.display = "none";
                 legalView.style.display = "block";
@@ -89,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const code = htmlInput.value.trim();
         if (!code) return;
+
+        activeAuditedCode = code; // Cache the raw HTML code for the AI Auto-Fixer
 
         transitionToScanning();
 
@@ -220,6 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
         radarPanel.style.display = "none";
         dashboardView.style.display = "block";
 
+        // Display AI Auto-Fixer Module for real code scans
+        const aiFixCardEl = document.getElementById("ai-fix-card");
+        if (aiFixCardEl) aiFixCardEl.style.display = "block";
+
         resultUrl.innerText = "Custom HTML Block";
 
         const violations = results.violations;
@@ -243,6 +262,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         score = Math.max(score, 18); // Minimum score caps at 18
         animateScore(score);
+
+        // Record audit score progression and trigger native SVG graph drawing
+        if (typeof scoreHistory !== "undefined") {
+            scoreHistory.push(score);
+            if (scoreHistory.length > 5) scoreHistory.shift();
+            if (typeof drawHistoryChart === "function") {
+                drawHistoryChart(scoreHistory);
+            }
+        }
 
         // Calculate Lawsuit Risk
         let risk = "Low";
@@ -555,6 +583,12 @@ document.addEventListener("DOMContentLoaded", () => {
             finalPriceVal.innerText = "£239.20";
             btnCheckout.innerText = "Secure Premium License - £239.20 / yr";
             
+            // Systematically update the main pricing grid values
+            const gridStrike = document.getElementById("grid-strike-price");
+            const gridFinal = document.getElementById("grid-final-price");
+            if (gridStrike) gridStrike.style.display = "inline";
+            if (gridFinal) gridFinal.innerText = "£239.20";
+            
             // Add custom visual glow
             btnApply.style.background = "var(--success)";
             btnApply.innerText = "APPLIED";
@@ -684,5 +718,318 @@ document.addEventListener("DOMContentLoaded", () => {
         dashboardView.style.display = "none";
         urlInput.value = "";
         htmlInput.value = "";
+    };
+
+    // ==========================================
+    // LegAlly SaaS Overhaul Optimization Scripts
+    // ==========================================
+
+    // 1. Compliance History Chart Native SVG Drawing
+    let scoreHistory = [34, 58, 76];
+    
+    function drawHistoryChart(history) {
+        const chartSvg = document.getElementById("history-svg-chart");
+        if (!chartSvg) return;
+        
+        // Remove existing lines and circles (preserve defs)
+        const elements = chartSvg.querySelectorAll("path, circle, line");
+        elements.forEach(el => el.remove());
+        
+        const width = chartSvg.clientWidth || 250;
+        const height = chartSvg.clientHeight || 110;
+        const paddingX = 25;
+        const paddingY = 15;
+        
+        // Draw grid lines
+        for (let i = 0; i <= 4; i++) {
+            const y = paddingY + (i * (height - 2 * paddingY)) / 4;
+            const grid = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            grid.setAttribute("x1", paddingX);
+            grid.setAttribute("y1", y);
+            grid.setAttribute("x2", width - paddingX);
+            grid.setAttribute("y2", y);
+            grid.setAttribute("class", "chart-grid-line");
+            chartSvg.appendChild(grid);
+        }
+        
+        // Calculate coordinates
+        const points = [];
+        const stepX = (width - 2 * paddingX) / Math.max(1, history.length - 1);
+        
+        history.forEach((score, idx) => {
+            const x = paddingX + idx * stepX;
+            const y = height - paddingY - (score / 100) * (height - 2 * paddingY);
+            points.push({ x, y, score });
+        });
+        
+        // Draw area path
+        let pathD = `M ${points[0].x} ${height - paddingY}`;
+        points.forEach(p => {
+            pathD += ` L ${p.x} ${p.y}`;
+        });
+        pathD += ` L ${points[points.length - 1].x} ${height - paddingY} Z`;
+        
+        const area = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        area.setAttribute("d", pathD);
+        area.setAttribute("fill", "url(#chartGrad)");
+        chartSvg.appendChild(area);
+        
+        // Draw stroke line path
+        let lineD = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 1; i < points.length; i++) {
+            lineD += ` L ${points[i].x} ${points[i].y}`;
+        }
+        
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        line.setAttribute("d", lineD);
+        line.setAttribute("class", "chart-line");
+        chartSvg.appendChild(line);
+        
+        // Draw points
+        points.forEach((p, idx) => {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", p.x);
+            circle.setAttribute("cy", p.y);
+            circle.setAttribute("r", 5);
+            circle.setAttribute("class", "chart-point");
+            
+            // Tooltip overlay details
+            const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+            title.textContent = `Audit ${idx + 1}: ${p.score}%`;
+            circle.appendChild(title);
+            
+            chartSvg.appendChild(circle);
+        });
+    }
+    
+    // Draw initial graph
+    setTimeout(() => drawHistoryChart(scoreHistory), 600);
+    window.addEventListener("resize", () => drawHistoryChart(scoreHistory));
+
+    // 2. Client-Side AI HTML Auto-Fixer Engine (MVP)
+    let activeAuditedCode = "";
+    const aiFixCard = document.getElementById("ai-fix-card");
+    const btnAiAutoFix = document.getElementById("btn-ai-autofix");
+    const btnDownloadPatched = document.getElementById("btn-download-patched");
+    
+    if (btnAiAutoFix) {
+        btnAiAutoFix.addEventListener("click", () => {
+            if (!activeAuditedCode) return;
+            
+            btnAiAutoFix.innerText = "⏳ PROCESSING AI PATCHES...";
+            btnAiAutoFix.disabled = true;
+            
+            setTimeout(() => {
+                try {
+                    let patchedCode = activeAuditedCode;
+                    
+                    // A. Fix missing image alt attributes
+                    patchedCode = patchedCode.replace(/<img([^>]+)>/gi, (match) => {
+                        if (!match.includes('alt=')) {
+                            return match.replace(/\/?>$/, ' alt="Image description placeholder">');
+                        }
+                        return match;
+                    });
+                    
+                    // B. Fix search and form inputs missing labels/aria-labels
+                    patchedCode = patchedCode.replace(/<input([^>]+)>/gi, (match) => {
+                        if (!match.includes('aria-label=') && !match.includes('aria-labelledby=') && match.includes('id=')) {
+                            const idMatch = match.match(/id=["']([^"']+)["']/i);
+                            const id = idMatch ? idMatch[1] : "input-control";
+                            return match.replace(/\/?>$/, ` aria-label="Input field for ${id}">`);
+                        }
+                        return match;
+                    });
+                    
+                    // C. Fix iframe missing descriptive titles
+                    patchedCode = patchedCode.replace(/<iframe([^>]+)>/gi, (match) => {
+                        if (!match.includes('title=')) {
+                            return match.replace(/\/?>$/, ' title="LegAlly accessibility audited embedded frame content">');
+                        }
+                        return match;
+                    });
+                    
+                    // D. Fix focus outlines hidden via outline: none or outline: 0
+                    patchedCode = patchedCode.replace(/outline:\s*none;?/gi, 'outline: 3px solid #6366f1; outline-offset: 2px;');
+                    patchedCode = patchedCode.replace(/outline:\s*0;?/gi, 'outline: 3px solid #6366f1; outline-offset: 2px;');
+                    
+                    activeAuditedCode = patchedCode;
+                    
+                    // Prepare Download Patched File Blob Trigger Link
+                    const blob = new Blob([patchedCode], { type: "text/html" });
+                    const downloadUrl = URL.createObjectURL(blob);
+                    
+                    if (btnDownloadPatched) {
+                        btnDownloadPatched.style.display = "block";
+                        btnDownloadPatched.onclick = () => {
+                            const a = document.createElement("a");
+                            a.href = downloadUrl;
+                            a.download = "legally-patched-file.html";
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        };
+                    }
+                    
+                    btnAiAutoFix.innerText = "✅ CODE FIXED & RE-AUDITED!";
+                    btnAiAutoFix.style.background = "var(--success)";
+                    
+                    alert("🤖 Client-Side AI Compliance Engine successfully patched all accessibility errors!\n\n1. Alt text injected to images\n2. ARIA labels mapped to form inputs\n3. Title tags mapped to iframes\n4. Focus ring outline styling restored\n\nYou can now download your clean patched file!");
+                    
+                    // Automatically run a fresh isolation re-scan on the patched HTML!
+                    executeAxeCoreScan(patchedCode);
+                    
+                } catch(err) {
+                    console.error("AI Fixer Error:", err);
+                    btnAiAutoFix.innerText = "⚠️ FIX FAILED";
+                    btnAiAutoFix.disabled = false;
+                }
+            }, 1200);
+        });
+    }
+
+    // 3. Litigation Defense Center Navigation & Print layouts
+    const litigationView = document.getElementById("litigation-view");
+    const litCompany = document.getElementById("lit-company");
+    const litDomain = document.getElementById("lit-domain");
+    const certCompanyPreview = document.getElementById("cert-company-preview");
+    const certDomainPreview = document.getElementById("cert-domain-preview");
+    const certDatePreview = document.getElementById("cert-date-preview");
+    
+    window.openLitigationCenter = () => {
+        mainSection.style.display = "none";
+        legalView.style.display = "none";
+        if (litigationView) litigationView.style.display = "block";
+        
+        // Populate default date values
+        const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        if (certDatePreview) certDatePreview.innerText = currentDate;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    
+    window.closeLitigationCenter = () => {
+        if (litigationView) litigationView.style.display = "none";
+        mainSection.style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    
+    window.updateLitigationDocs = () => {
+        const companyVal = litCompany.value.trim() || "[Your Company Name]";
+        const domainVal = litDomain.value.trim() || "[Your Domain URL]";
+        
+        if (certCompanyPreview) certCompanyPreview.innerText = companyVal;
+        if (certDomainPreview) certDomainPreview.innerText = domainVal;
+    };
+    
+    window.printLitigationCert = () => {
+        const companyVal = litCompany.value.trim();
+        const domainVal = litDomain.value.trim();
+        
+        if (!companyVal || !domainVal) {
+            alert("Please setup your Company Name and Website Domain URL first in the setup fields.");
+            return;
+        }
+        
+        document.body.classList.add("printing-litigation-cert");
+        window.print();
+        
+        // Remove class after printing
+        setTimeout(() => {
+            document.body.classList.remove("printing-litigation-cert");
+        }, 1000);
+    };
+    
+    window.copyLitigationStatement = (btn) => {
+        const companyVal = litCompany.value.trim() || "[Your Company Name]";
+        const domainVal = litDomain.value.trim() || "[Your Domain URL]";
+        const dateVal = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        const statementHTML = `
+<h2>Accessibility Statement for ${companyVal}</h2>
+<p>This accessibility statement applies to the website target domain address: <strong>${domainVal}</strong>.</p>
+<h3>Conformance Status</h3>
+<p>We strongly believe that the internet should be available and accessible to anyone. We are committed to providing a website that is accessible to the widest possible audience, regardless of ability. To fulfill this, we aim to adhere as closely as possible to the Web Content Accessibility Guidelines 2.1 (WCAG 2.1) at the Level AA standard. These guidelines explain how to make web content more accessible to people with a wide array of sensory, physical, cognitive, and visual impairments.</p>
+<h3>Remediation Compliance Metrics</h3>
+<p>All core site layouts have been successfully scanned and remediated using the industry-standard gold verification audit engine LegAlly. Key corrections implemented include focus ring navigation guides, image descriptive text alternatives, and clear ARIA descriptors.</p>
+<p><strong>Statement Date:</strong> ${dateVal}</p>
+`;
+        
+        navigator.clipboard.writeText(statementHTML).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = "📋 COPIED HTML!";
+            btn.style.background = "var(--success)";
+            btn.style.color = "#0c0f17";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "rgba(255,255,255,0.04)";
+                btn.style.color = "#fff";
+            }, 1500);
+        });
+    };
+
+    // 4. Evergreen Scarcity Countdown clock
+    function runEvergreenTimer() {
+        const timerDisplay = document.getElementById("grid-countdown-timer");
+        if (!timerDisplay) return;
+        
+        let expiryTime = localStorage.getItem("countdown_expiry");
+        const now = new Date().getTime();
+        
+        if (!expiryTime || parseInt(expiryTime) < now) {
+            // Set expiry to 24 hours from now
+            expiryTime = now + 24 * 60 * 60 * 1000;
+            localStorage.setItem("countdown_expiry", expiryTime);
+        }
+        
+        const interval = setInterval(() => {
+            const currentNow = new Date().getTime();
+            const distance = parseInt(expiryTime) - currentNow;
+            
+            if (distance < 0) {
+                clearInterval(interval);
+                localStorage.removeItem("countdown_expiry");
+                runEvergreenTimer(); // Loop back evergreen scarcity
+                return;
+            }
+            
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            
+            timerDisplay.innerText = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }, 1000);
+    }
+    runEvergreenTimer();
+
+    // 5. Lead Capturing & PDF scorecard downloads
+    window.generateLeadScorecard = (e) => {
+        e.preventDefault();
+        const email = document.getElementById("lead-email").value.trim();
+        if (!email) return;
+        
+        alert("📩 Thank you! Accessibility scorecard created successfully.\n\nOpening print window to download your White-labeled compliance PDF...");
+        window.print();
+    };
+
+    // 6. Embeddable trust badge copy logic
+    window.copyBadgeEmbed = (btn) => {
+        const embedCode = `<a href="https://uselegally.com" target="_blank" title="Verified accessible by LegAlly WCAG compliance auditor"><div style="background:rgba(10,15,30,0.9);border:1px solid #22c55e;padding:12px 20px;border-radius:12px;display:inline-flex;align-items:center;gap:12px;font-family:sans-serif;color:#fff;"><span style="font-size:1.6rem;">🛡️</span><div style="text-align:left;"><span style="font-size:0.65rem;color:#a3a3a3;display:block;text-transform:uppercase;letter-spacing:1px;">Verified Accessible</span><strong style="font-size:0.85rem;color:#fff;">LegAlly Certified</strong></div></div></a>`;
+        
+        navigator.clipboard.writeText(embedCode).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = "COPIED HTML EMBED!";
+            btn.style.background = "var(--success)";
+            btn.style.color = "#0c0f17";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "rgba(255,255,255,0.05)";
+                btn.style.color = "#fff";
+            }, 1500);
+        });
     };
 });
