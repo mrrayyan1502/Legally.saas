@@ -680,15 +680,20 @@
         </section>
 
         <!-- Footer -->
-        <footer>
-            <div class="footer-left">
-                © 2026 LegAlly SaaS. Powered by Axe-Core. All rights reserved.
+        <footer style="flex-direction: column; align-items: center; gap: 12px; display: flex;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div class="footer-left">
+                    © 2026 LegAlly SaaS. Powered by Axe-Core. All rights reserved.
+                </div>
+                <div class="footer-right">
+                    <a href="#privacy" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('privacy')">Privacy Policy</a>
+                    <a href="#terms" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('terms')">Terms of Service</a>
+                    <a href="#disclaimer" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('disclaimer')">Legal Disclaimer</a>
+                    <a href="#accessibility" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('accessibility')">Accessibility Statement</a>
+                </div>
             </div>
-            <div class="footer-right">
-                <a href="#privacy" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('privacy')">Privacy Policy</a>
-                <a href="#terms" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('terms')">Terms of Service</a>
-                <a href="#disclaimer" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('disclaimer')">Legal Disclaimer</a>
-                <a href="#accessibility" class="footer-link" onclick="event.preventDefault(); openLegalInFooter('accessibility')">Accessibility Statement</a>
+            <div class="footer-support-info" style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); width: 100%; text-align: center; padding-top: 12px; margin-top: 8px;">
+                📬 Support Helpdesk: <strong>support@uselegally.com</strong> — We respond within 24 hours.
             </div>
         </footer>
 
