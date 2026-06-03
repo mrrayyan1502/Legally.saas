@@ -719,6 +719,20 @@
             </div>
         </div>
 
+        <!-- Cookie Consent Banner -->
+        <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 500px; margin: 0 auto; z-index: 9999; background: rgba(10, 15, 30, 0.95); border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; backdrop-filter: blur(16px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); flex-direction: column; gap: 12px; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #fff;">
+                <span>🍪</span> Cookie Privacy Preference
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+                We use cookies to analyze site traffic, optimize payment processing via Stripe, and improve your user experience under UK GDPR guidelines.
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px;">
+                <button type="button" class="btn-copy-fix" onclick="declineCookies()" style="margin: 0; padding: 6px 14px; font-size: 0.8rem; background: transparent; border: 1px solid var(--border-color); color: var(--text-muted);">Decline</button>
+                <button type="button" class="btn-scan" onclick="acceptCookies()" style="margin: 0; padding: 6px 16px; font-size: 0.8rem; background: linear-gradient(135deg, var(--primary), var(--secondary));">Accept All</button>
+            </div>
+        </div>
+
     </div>
 
     <!-- Legal Docs database scripts -->

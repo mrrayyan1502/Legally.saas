@@ -1301,4 +1301,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Call settings initialization on load
     initAgencySettings();
+
+    // 9. Cookie Consent Banner Handler
+    const cookieBanner = document.getElementById("cookie-consent-banner");
+    
+    window.acceptCookies = () => {
+        SafeStorage.set("cookie_consent", "accepted");
+        if (cookieBanner) cookieBanner.style.setProperty("display", "none", "important");
+        if (typeof gtag === "function") {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted'
+            });
+        }
+    };
+
+    window.declineCookies = () => {
+        SafeStorage.set("cookie_consent", "declined");
+        if (cookieBanner) cookieBanner.style.setProperty("display", "none", "important");
+        if (typeof gtag === "function") {
+            gtag('consent', 'update', {
+                'analytics_storage': 'denied'
+            });
+        }
+    };
+
+    function initCookieConsent() {
+        const consent = SafeStorage.get("cookie_consent");
+        if (!consent) {
+            if (cookieBanner) cookieBanner.style.setProperty("display", "flex", "important");
+        } else if (consent === "declined") {
+            if (typeof gtag === "function") {
+                gtag('consent', 'default', {
+                    'analytics_storage': 'denied'
+                });
+            }
+        }
+    }
+
+    // Call consent check on load
+    initCookieConsent();
 });
