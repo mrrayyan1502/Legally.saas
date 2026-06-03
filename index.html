@@ -407,6 +407,18 @@
                     <p style="color: var(--text-muted); max-width: 600px; margin: 10px auto 0 auto; font-size: 0.95rem; line-height: 1.5;">Select the plan that matches your business scale. Improve your website accessibility and documentation with professional, high-fidelity audit tools.</p>
                 </div>
 
+                <!-- Billing Cycle Toggle Switch -->
+                <div class="pricing-toggle-container" style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: -10px auto 30px auto; flex-wrap: wrap;">
+                    <span class="pricing-toggle-label" id="toggle-label-monthly" style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: color 0.3s;">Monthly Billing</span>
+                    <label class="pricing-switch" style="position: relative; display: inline-block; width: 52px; height: 28px; cursor: pointer;">
+                        <input type="checkbox" id="billing-toggle" checked style="opacity: 0; width: 0; height: 0;">
+                        <span class="pricing-slider" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.08); border: 1px solid var(--border-color); border-radius: 34px; transition: 0.4s;"></span>
+                    </label>
+                    <span class="pricing-toggle-label active" id="toggle-label-annual" style="font-size: 0.95rem; font-weight: 600; color: #fff; cursor: pointer; transition: color 0.3s; display: flex; align-items: center; gap: 6px;">
+                        Annual Billing <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(16,185,129,0.25);">Save ~20%</span>
+                    </span>
+                </div>
+
                 <div class="pricing-grid">
                     <!-- Starter Card -->
                     <div class="pricing-card">
@@ -428,7 +440,7 @@
                         <h3>Professional Plan</h3>
                         <div class="price-val">
                             <span class="strike-pricing" id="grid-strike-price" style="display: none; font-size: 1.2rem; text-decoration: line-through; color: var(--text-dark); margin-right: 8px;">£299</span>
-                            <span id="grid-final-price">£299</span><span>/ year</span>
+                            <span id="grid-final-price">£299</span><span id="grid-price-period">/ year</span>
                         </div>
                         <p class="plan-desc">Complete automated accessibility audit for commercial small businesses, SaaS tools, and developers.</p>
                         
@@ -445,7 +457,7 @@
                             <li><span class="feat-icon">✓</span> Custom Accessibility Statement</li>
                             <li><span class="feat-icon">✓</span> Embeddable Trust Seal Badges</li>
                         </ul>
-                        <a href="https://buy.stripe.com/aFadRacnlcHQ5Wb0sf3F600" target="_blank" class="btn-checkout" style="background: linear-gradient(135deg, var(--primary), #4facfe); border: none; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; color: #fff;">Activate Professional Plan</a>
+                        <a href="https://buy.stripe.com/aFadRacnlcHQ5Wb0sf3F600" id="btn-pricing-professional" target="_blank" class="btn-checkout" style="background: linear-gradient(135deg, var(--primary), #4facfe); border: none; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; color: #fff;">Activate Professional Plan</a>
                     </div>
 
                     <!-- Enterprise Card -->

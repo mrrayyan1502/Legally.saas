@@ -1059,4 +1059,57 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 1500);
         });
     };
+
+    // 7. Dynamic Billing Switch (Monthly vs. Annual) Controller
+    const billingToggle = document.getElementById("billing-toggle");
+    const labelMonthly = document.getElementById("toggle-label-monthly");
+    const labelAnnual = document.getElementById("toggle-label-annual");
+    const gridFinalPrice = document.getElementById("grid-final-price");
+    const gridPricePeriod = document.getElementById("grid-price-period");
+    const btnProfessional = document.getElementById("btn-pricing-professional");
+
+    const STRIPE_ANNUAL_LINK = "https://buy.stripe.com/aFadRacnlcHQ5Wb0sf3F600";
+    const STRIPE_MONTHLY_LINK = "https://buy.stripe.com/4gMaEY2ML9vEbgva2P3F602";
+
+    function updateBillingCycle() {
+        if (!billingToggle || !gridFinalPrice || !gridPricePeriod || !btnProfessional) return;
+
+        if (billingToggle.checked) {
+            // Annual Billing selected
+            gridFinalPrice.innerText = "£299";
+            gridPricePeriod.innerText = "/ year";
+            btnProfessional.setAttribute("href", STRIPE_ANNUAL_LINK);
+            
+            if (labelAnnual) labelAnnual.classList.add("active");
+            if (labelMonthly) labelMonthly.classList.remove("active");
+        } else {
+            // Monthly Billing selected
+            gridFinalPrice.innerText = "£29";
+            gridPricePeriod.innerText = "/ month";
+            btnProfessional.setAttribute("href", STRIPE_MONTHLY_LINK);
+            
+            if (labelMonthly) labelMonthly.classList.add("active");
+            if (labelAnnual) labelAnnual.classList.remove("active");
+        }
+    }
+
+    if (billingToggle) {
+        billingToggle.addEventListener("change", updateBillingCycle);
+    }
+    if (labelMonthly) {
+        labelMonthly.addEventListener("click", () => {
+            if (billingToggle) {
+                billingToggle.checked = false;
+                updateBillingCycle();
+            }
+        });
+    }
+    if (labelAnnual) {
+        labelAnnual.addEventListener("click", () => {
+            if (billingToggle) {
+                billingToggle.checked = true;
+                updateBillingCycle();
+            }
+        });
+    }
 });

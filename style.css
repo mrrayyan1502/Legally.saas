@@ -1610,3 +1610,30 @@ footer {
     }
 }
 
+/* Pricing Switch Toggle Slider */
+.pricing-toggle-label.active {
+    color: #fff !important;
+}
+.pricing-toggle-label {
+    user-select: none;
+}
+.pricing-switch input:checked + .pricing-slider {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+.pricing-switch input:checked + .pricing-slider:before {
+    transform: translateX(24px);
+}
+.pricing-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
