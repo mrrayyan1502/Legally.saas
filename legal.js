@@ -176,22 +176,42 @@ const LegalDocs = {
 
     accessibility: `
         <h2>Accessibility Statement</h2>
-        <p>LegAlly is dedicated to ensuring digital accessibility for people with disabilities. We are continuously improving the user experience for everyone and applying the relevant accessibility standards to our own platform.</p>
+        <p><strong>Last Updated: June 1, 2026</strong> | <strong>Governing Law: United Kingdom</strong></p>
+        
+        <div style="background: rgba(59, 130, 246, 0.08); border-left: 4px solid var(--primary); padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+            <strong style="color: #93c5fd; display: block; margin-bottom: 6px;">♿ OUR COMMITMENT</strong>
+            LegAlly is dedicated to ensuring digital accessibility for people with disabilities. We are continuously improving the user experience for everyone and applying the relevant accessibility standards to our own platform.
+        </div>
 
-        <h3>1. Conformance Status</h3>
-        <p>The Web Content Accessibility Guidelines (WCAG) defines requirements for designers and developers to improve accessibility for people with disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA. <strong>LegAlly is partially conformant with WCAG 2.1 Level AA.</strong> Partially conformant means that some parts of the content do not fully conform to the accessibility standard, though we actively work to identify and resolve any usability barriers.</p>
+        <h3>Section 01: Conformance Status</h3>
+        <div style="background: rgba(245, 158, 11, 0.08); border-left: 4px solid #f59e0b; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 0.9rem;">
+            <strong style="color: #fde047;">⚠️ Partially Conformant — WCAG 2.1 Level AA</strong>
+        </div>
+        <p>The Web Content Accessibility Guidelines (WCAG) defines requirements for designers and developers to improve accessibility for people with disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA.</p>
+        <p>LegAlly is partially conformant with WCAG 2.1 Level AA. Partially conformant means that some parts of the content do not fully conform to the accessibility standard, though we actively work to identify and resolve any usability barriers on an ongoing basis.</p>
+        <p><em><strong>Note:</strong> "Partially conformant" is the industry-standard safe terminology for dynamic web applications. We use it to be honest with our users rather than making absolute compliance claims.</em></p>
 
-        <h3>2. Accessibility Features Built into our SaaS</h3>
-        <p>We work to implement features that facilitate digital access. Key features include:</p>
+        <h3>Section 02: Accessibility Features Built into Our Platform</h3>
+        <p>We work to implement features that facilitate digital access for all users. Key features include:</p>
         <ul>
             <li><strong>Keyboard Accessibility:</strong> We strive to ensure all active fields, scanner inputs, and dashboard panels can be navigated using the Tab and Enter keys without keyboard traps.</li>
             <li><strong>High Color Contrast:</strong> Text colors and interactive components aim to maintain a contrast ratio exceeding 4.5:1 to support WCAG AA standard readability.</li>
-            <li><strong>ARIA Labels & Semantics:</strong> We utilize semantic HTML elements and ARIA descriptors designed to assist screen-readers in parsing dashboard elements, gauges, and scan metrics.</li>
+            <li><strong>ARIA Labels & Semantics:</strong> We utilise semantic HTML elements and ARIA descriptors designed to assist screen-readers in parsing dashboard elements, gauges, and scan metrics.</li>
             <li><strong>Screen-Reader Friendly Alerts:</strong> Scanning updates and live score adjustments are announced dynamically using ARIA live regions to keep assistive technologies informed.</li>
         </ul>
+        <p>We acknowledge that not all areas of our platform may meet every WCAG 2.1 Level AA criterion at this time, and we are committed to continuous improvement.</p>
 
-        <h3>3. Feedback & Contact</h3>
-        <p>We welcome your feedback on the accessibility of our SaaS website. If you encounter any barriers, please let us know so we can address them:</p>
-        <p><strong>Email:</strong> legally.support@gmail.com</p>
+        <h3>Section 03: Feedback & Contact</h3>
+        <p>We welcome your feedback on the accessibility of our platform. If you encounter any accessibility barriers while using LegAlly, please let us know so we can address them promptly:</p>
+        <p>📩 <strong>Accessibility Feedback:</strong> <a href="mailto:legally.support@gmail.com" style="color: var(--primary); text-decoration: underline;">legally.support@gmail.com</a></p>
+        <p>We aim to respond to all accessibility-related enquiries within 5 business days.</p>
+        <p>If you are not satisfied with our response, you may contact the Equality and Human Rights Commission (EHRC) in the UK or the relevant authority in your country.</p>
+
+        <h3>Section 04: Formal Complaints</h3>
+        <p>If you are not satisfied with our response to your accessibility concern, you have the right to escalate your complaint to the relevant enforcement body:</p>
+        <ul>
+            <li><strong>United Kingdom:</strong> Equality and Human Rights Commission (EHRC) — <a href="https://equalityhumanrights.com" target="_blank" style="color: var(--primary); text-decoration: underline;">equalityhumanrights.com</a></li>
+            <li><strong>United States:</strong> U.S. Department of Justice, Civil Rights Division — <a href="https://ada.gov" target="_blank" style="color: var(--primary); text-decoration: underline;">ada.gov</a></li>
+        </ul>
     `
 };
