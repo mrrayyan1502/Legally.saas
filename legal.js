@@ -60,18 +60,18 @@ const LegalDocs = {
         <h2>Disclaimer</h2>
         <div style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; padding: 16px; border-radius: 6px; margin-bottom: 24px;">
             <strong style="color: #fca5a5; display: block; margin-bottom: 6px; font-size: 1rem;">IMPORTANT LEGAL NOTICE</strong>
-            LegAlly provides automated accessibility scanning tools based on the public Web Content Accessibility Guidelines (WCAG 2.1) and general American Disability Act (ADA) digital requirements. 
-            <strong>This tool does not provide legal advice, nor does its reports guarantee complete regulatory compliance or absolute immunity from web-related legal actions.</strong>
+            LegAlly provides automated accessibility scanning tools based on the Web Content Accessibility Guidelines (WCAG 2.1) and the general digital accessibility requirements of the Americans with Disabilities Act (ADA) and the UK Equality Act 2010. 
+            <strong>This tool does not provide legal advice, nor do its reports guarantee complete regulatory compliance or absolute immunity from web-related legal actions.</strong>
         </div>
 
         <h3>1. Limits of Automated Accessibility Audits</h3>
-        <p>Automated scanners (including industry standards like Axe-core) are exceptionally highly effective at catching structural, high-impact issues such as missing text alternatives, incorrect heading orders, and severe color contrast ratios. However, automated systems can generally detect approximately 70% to 80% of all potential WCAG violations. Full compliance requires supplementary manual testing with screen-readers and keyboard-only focus reviews.</p>
+        <p>Automated scanners (including industry standards like Axe-Core) are highly effective at catching structural, high-impact issues such as missing text alternatives, incorrect heading orders, and severe color contrast ratios. However, automated systems can generally detect approximately 70% to 80% of all potential WCAG violations. Full compliance requires supplementary manual testing with screen-readers and keyboard-only focus reviews.</p>
 
         <h3>2. No Lawyer-Client Relationship</h3>
-        <p>Any information, tutorials, code snippets, or support conversations provided by this tool are for educational and technical remediation purposes only. They do not constitute formal legal counsel. If your business has received a formal digital lawsuit notice or settlement letter, we strongly advise you to consult with a qualified legal professional specializing in digital civil rights and web accessibility laws in the USA or UK.</p>
+        <p>Any information, tutorials, code snippets, or support conversations provided by this tool are for educational and technical remediation purposes only. They do not constitute formal legal counsel. If your business has received a formal digital accessibility lawsuit notice or settlement letter, we strongly advise you to consult with a qualified legal professional specialising in digital civil rights and web accessibility law in the USA or UK.</p>
 
         <h3>3. Limitation of Liability</h3>
-        <p>Under no circumstances shall LegAlly, its founders, or affiliates be held liable for any legal fines, lawsuit settlements, loss of business, or damages resulting from accessibility failures on your websites, regardless of whether those files were audited by our tool.</p>
+        <p>Under no circumstances shall LegAlly, its founders, or affiliates be held liable for any legal fines, lawsuit settlements, loss of business, or damages resulting from accessibility failures on your websites, regardless of whether those websites were audited by our tool.</p>
     `,
 
     accessibility: `
