@@ -115,6 +115,7 @@
                 <div class="scan-box-wrapper active" id="url-scan-box">
                     <form id="url-form">
                         <div class="url-input-group">
+                            <label for="url-input" class="visually-hidden">Website URL to scan</label>
                             <input type="text" id="url-input" placeholder="e.g., https://mybusiness.com" aria-label="Website URL to scan" required>
                             <button type="submit" class="btn-scan">
                                 🚀 Scan Now
@@ -129,6 +130,7 @@
                 <!-- HTML Paste input -->
                 <div class="scan-box-wrapper" id="html-scan-box">
                     <form id="html-form">
+                        <label for="html-input" class="visually-hidden">HTML source code snippet to audit</label>
                         <textarea class="code-textarea" id="html-input" placeholder="Paste your HTML code snippet here to execute a real-time deep structural WCAG audit..." aria-label="HTML source code snippet to audit" required></textarea>
                         <div style="display: flex; justify-content: flex-end;">
                             <button type="submit" class="btn-scan">
@@ -160,7 +162,7 @@
                 <div class="radar-circle">
                     <span class="radar-icon">🛡️</span>
                 </div>
-                <h3 style="margin-bottom: 8px;">Performing Accessibility Analysis</h3>
+                <h2 style="font-size: 1.5rem; margin-bottom: 8px;">Performing Accessibility Analysis</h2>
                 <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px;">This takes up to a few seconds. Do not close this browser window.</p>
                 
                 <div class="scanning-steps">
@@ -187,7 +189,7 @@
             <section class="dashboard-view" id="dashboard-view">
                 <div class="dashboard-header">
                     <div class="dashboard-meta">
-                        <h3>Accessibility Audit Report</h3>
+                        <h2>Accessibility Audit Report</h2>
                         <p>Scanned Target: <span class="badge-url" id="result-url">https://example.com</span></p>
                     </div>
                     <button class="scan-tab active" onclick="resetScanner()" style="border: none;">🔄 Scan Another Site</button>
@@ -206,7 +208,7 @@
                             <span class="radial-val" id="score-val">0%</span>
                         </div>
                         <div class="metric-info">
-                            <h4>Compliance Score</h4>
+                            <h3>Compliance Score</h3>
                             <div class="val" id="score-label" style="font-size: 1.3rem; color: #ffffff;">Fails Basic Audit</div>
                         </div>
                     </div>
@@ -215,7 +217,7 @@
                     <div class="metric-card">
                         <div style="font-size: 2.2rem; color: var(--danger);">⚖️</div>
                         <div class="metric-info">
-                            <h4>Lawsuit Risk Rating</h4>
+                            <h3>Lawsuit Risk Rating</h3>
                             <div class="val risk-level" id="risk-level">HIGH</div>
                         </div>
                     </div>
@@ -224,7 +226,7 @@
                     <div class="metric-card">
                         <div style="font-size: 2.2rem; color: var(--warning);">⚠️</div>
                         <div class="metric-info">
-                            <h4>Total Violations</h4>
+                            <h3>Total Violations</h3>
                             <div class="val" id="count-violations">0</div>
                         </div>
                     </div>
@@ -236,7 +238,7 @@
                     
                     <!-- Left: Violations List -->
                     <div class="violations-container">
-                        <h3>Outstanding Violations (Axe-Core Verified)</h3>
+                        <h2>Outstanding Violations (Axe-Core Verified)</h2>
                         <div id="violations-list">
                             <!-- Populated dynamically via app.js -->
                         </div>
@@ -248,7 +250,7 @@
                         <!-- AI-Powered HTML Auto-Fixer Card (Active for Paste HTML Tab) -->
                         <div class="promo-card ai-fix-card" id="ai-fix-card" style="display: none;">
                             <span class="promo-tag" style="background: var(--success); color: #0c0f17; font-weight: 700;">AI COMPLIANCE ENGINE</span>
-                            <h4>🤖 Client-Side AI Auto-Fixer</h4>
+                            <h3>🤖 Client-Side AI Auto-Fixer</h3>
                             <p>Instantly resolve outstanding accessibility violations in your pasted HTML code snippet with one-click offline patches!</p>
                             
                             <button class="btn-scan" id="btn-ai-autofix" style="width: 100%; margin-top: 12px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 600;">
@@ -263,7 +265,7 @@
                         <!-- Documentation Hub & Audit Report Card -->
                         <div class="promo-card" id="litigation-shield-card">
                             <span class="promo-tag" style="background: var(--primary); color: #fff;">DOCUMENTATION HUB</span>
-                            <h4>🛡️ Accessibility Documentation Hub</h4>
+                            <h3>🛡️ Accessibility Documentation Hub</h3>
                             <p>Generate a WCAG-aligned Accessibility Statement and download your formal Accessibility Audit Report.</p>
                             <button class="btn-checkout" onclick="openLitigationCenter()" style="width: 100%; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
                                 📋 Open Documentation Center
@@ -272,7 +274,7 @@
 
                         <!-- Embeddable Trust Badge Widget Card -->
                         <div class="widget-mock-card" id="trust-badge-card">
-                            <h4 style="margin-bottom: 8px;">🏆 Embeddable Trust Seal</h4>
+                            <h3 style="margin-bottom: 8px;">🏆 Embeddable Trust Seal</h3>
                             <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">Show visitors you care about web accessibility. Embed our dynamic glassmorphic trust seal in your site footer.</p>
                             
                             <!-- Seal Visual Preview -->
@@ -293,7 +295,7 @@
 
                         <!-- Compliance History SVG Chart Card -->
                         <div class="roadmap-card" id="compliance-history-card">
-                            <h4 style="margin-bottom: 12px;">📊 Compliance History Path</h4>
+                            <h3 style="margin-bottom: 12px;">📊 Compliance History Path</h3>
                             <div class="chart-wrapper" style="position: relative; height: 110px; width: 100%; margin-bottom: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); padding: 5px;">
                                 <svg id="history-svg-chart" aria-label="Interactive chart showing web accessibility compliance history" role="img" style="width: 100%; height: 100%; overflow: visible;">
                                     <defs>
@@ -448,6 +450,7 @@
                 <div class="pricing-toggle-container" style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: -10px auto 30px auto; flex-wrap: wrap;">
                     <span class="pricing-toggle-label" id="toggle-label-monthly" style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: color 0.3s;">Monthly Billing</span>
                     <label class="pricing-switch" style="position: relative; display: inline-block; width: 52px; height: 28px; cursor: pointer;">
+                        <label for="billing-toggle" class="visually-hidden">Toggle annual or monthly billing pricing display</label>
                         <input type="checkbox" id="billing-toggle" checked aria-label="Toggle annual or monthly billing pricing display" style="opacity: 0; width: 0; height: 0;">
                         <span class="pricing-slider" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.08); border: 1px solid var(--border-color); border-radius: 34px; transition: 0.4s;"></span>
                     </label>
@@ -534,10 +537,11 @@
                 <!-- Lead Magnet Scorecard Capture Card -->
                 <div class="lead-magnet-card" style="margin-top: 40px; background: rgba(255, 255, 255, 0.01); border: 1px dashed var(--border-color); padding: 24px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
                     <div style="flex: 1.2; min-width: 280px; text-align: left;">
-                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; margin-bottom: 6px; color: #fff;">📩 Get Your Free Accessibility Scorecard PDF</h4>
+                        <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; margin-bottom: 6px; color: #fff;">📩 Get Your Free Accessibility Scorecard PDF</h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Enter your email to receive a structured web accessibility scorecard PDF. Helps present status to developers or managers.</p>
                     </div>
                     <form id="lead-magnet-form" onsubmit="generateLeadScorecard(event)" style="display: flex; gap: 10px; flex: 1.5; min-width: 300px; flex-wrap: wrap;">
+                        <label for="lead-email" class="visually-hidden">Enter your business email address for free accessibility scorecard</label>
                         <input type="email" id="lead-email" placeholder="Enter your business email" aria-label="Enter your business email address for free accessibility scorecard" required style="flex: 2; min-width: 200px; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 0.9rem;">
                         <button type="submit" class="btn-scan" style="flex: 1; min-width: 150px; font-size: 0.85rem; background: linear-gradient(135deg, var(--primary), #8a2be2); padding: 12px 16px; border-radius: 8px; font-weight: 600;">
                             Get Free Scorecard
@@ -578,7 +582,7 @@
                 <div class="litigation-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 20px;">
                     <!-- Left: Inputs Form -->
                     <div class="glass-panel" style="padding: 24px; border-radius: 16px; text-align: left; display: flex; flex-direction: column; gap: 18px; border: 1px solid var(--border-color);">
-                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px;">🏢 Setup Company Accessibility Profile</h4>
+                        <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px;">🏢 Setup Company Accessibility Profile</h3>
                         
                         <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
                             <label for="lit-company" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Company / Business Name</label>
@@ -602,7 +606,7 @@
 
                     <!-- Middle: Agency Reseller Settings -->
                     <div class="glass-panel" id="agency-portal-panel" style="padding: 24px; border-radius: 16px; text-align: left; display: flex; flex-direction: column; gap: 18px; border: 1px solid var(--border-color);">
-                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px;">🏢 Agency Reseller Portal</h4>
+                        <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px;">🏢 Agency Reseller Portal</h3>
                         
                         <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
                             <label for="agency-logo-upload" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Upload Agency Logo (White-Label PDF)</label>
