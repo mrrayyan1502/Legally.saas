@@ -1067,9 +1067,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const gridFinalPrice = document.getElementById("grid-final-price");
     const gridPricePeriod = document.getElementById("grid-price-period");
     const btnProfessional = document.getElementById("btn-pricing-professional");
+    const agencyFinalPrice = document.getElementById("agency-final-price");
+    const agencyPricePeriod = document.getElementById("agency-price-period");
+    const btnAgency = document.getElementById("btn-pricing-agency");
 
     const STRIPE_ANNUAL_LINK = "https://buy.stripe.com/aFadRacnlcHQ5Wb0sf3F600";
     const STRIPE_MONTHLY_LINK = "https://buy.stripe.com/4gMaEY2ML9vEbgva2P3F602";
+    const STRIPE_AGENCY_ANNUAL_LINK = "https://buy.stripe.com/8x2aEY5YX0Z80BRb6T3F604";
+    const STRIPE_AGENCY_MONTHLY_LINK = "https://buy.stripe.com/14A00kgDBfU2acrgrd3F603";
 
     function updateBillingCycle() {
         if (!billingToggle || !gridFinalPrice || !gridPricePeriod || !btnProfessional) return;
@@ -1080,6 +1085,12 @@ document.addEventListener("DOMContentLoaded", () => {
             gridPricePeriod.innerText = "/ year";
             btnProfessional.setAttribute("href", STRIPE_ANNUAL_LINK);
             
+            if (agencyFinalPrice && agencyPricePeriod && btnAgency) {
+                agencyFinalPrice.innerText = "£990";
+                agencyPricePeriod.innerText = "/ year";
+                btnAgency.setAttribute("href", STRIPE_AGENCY_ANNUAL_LINK);
+            }
+            
             if (labelAnnual) labelAnnual.classList.add("active");
             if (labelMonthly) labelMonthly.classList.remove("active");
         } else {
@@ -1087,6 +1098,12 @@ document.addEventListener("DOMContentLoaded", () => {
             gridFinalPrice.innerText = "£29";
             gridPricePeriod.innerText = "/ month";
             btnProfessional.setAttribute("href", STRIPE_MONTHLY_LINK);
+            
+            if (agencyFinalPrice && agencyPricePeriod && btnAgency) {
+                agencyFinalPrice.innerText = "£99";
+                agencyPricePeriod.innerText = "/ month";
+                btnAgency.setAttribute("href", STRIPE_AGENCY_MONTHLY_LINK);
+            }
             
             if (labelMonthly) labelMonthly.classList.add("active");
             if (labelAnnual) labelAnnual.classList.remove("active");
@@ -1112,4 +1129,176 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // 8. Safe Storage & Agency Reseller White-Label Logo/Domain Management
+    const SafeStorage = {
+        get: (key) => {
+            try {
+                const sessionVal = sessionStorage.getItem(key);
+                if (sessionVal !== null) return sessionVal;
+            } catch (e) {}
+            try {
+                const localVal = localStorage.getItem(key);
+                if (localVal !== null) return localVal;
+            } catch (e) {}
+            if (!window.inMemoryStorage) window.inMemoryStorage = {};
+            return window.inMemoryStorage[key] || null;
+        },
+        set: (key, value) => {
+            try {
+                sessionStorage.setItem(key, value);
+            } catch (e) {}
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {}
+            if (!window.inMemoryStorage) window.inMemoryStorage = {};
+            window.inMemoryStorage[key] = value;
+        },
+        remove: (key) => {
+            try {
+                sessionStorage.removeItem(key);
+            } catch (e) {}
+            try {
+                localStorage.removeItem(key);
+            } catch (e) {}
+            if (window.inMemoryStorage) {
+                delete window.inMemoryStorage[key];
+            }
+        }
+    };
+
+    const agencyLogoUpload = document.getElementById("agency-logo-upload");
+    const logoUploadStatus = document.getElementById("logo-upload-status");
+    const agencyLogoPreviewContainer = document.getElementById("agency-logo-preview-container");
+    const agencyLogoPreviewImg = document.getElementById("agency-logo-preview-img");
+    
+    const defaultPrintLogo = document.getElementById("default-print-logo");
+    const agencyPrintLogoContainer = document.getElementById("agency-print-logo-container");
+    const agencyPrintLogoImg = document.getElementById("agency-print-logo-img");
+
+    const agencyDomainSelect = document.getElementById("agency-domain-select");
+    const agencyDomainsInput = document.getElementById("agency-domains-input");
+    const domainsCounter = document.getElementById("domains-counter");
+
+    function applyAgencyLogo(base64Data) {
+        if (logoUploadStatus) logoUploadStatus.innerText = "Custom logo active";
+        if (agencyLogoPreviewContainer) agencyLogoPreviewContainer.style.display = "flex";
+        if (agencyLogoPreviewImg) agencyLogoPreviewImg.src = base64Data;
+
+        // Apply to print layouts
+        if (defaultPrintLogo) defaultPrintLogo.style.display = "none";
+        if (agencyPrintLogoContainer) agencyPrintLogoContainer.style.display = "block";
+        if (agencyPrintLogoImg) agencyPrintLogoImg.src = base64Data;
+    }
+
+    window.clearAgencyLogo = () => {
+        SafeStorage.remove("agency_logo");
+        if (logoUploadStatus) logoUploadStatus.innerText = "No logo uploaded";
+        if (agencyLogoPreviewContainer) agencyLogoPreviewContainer.style.display = "none";
+        if (agencyLogoPreviewImg) agencyLogoPreviewImg.src = "";
+
+        if (defaultPrintLogo) defaultPrintLogo.style.display = "block";
+        if (agencyPrintLogoContainer) agencyPrintLogoContainer.style.display = "none";
+        if (agencyPrintLogoImg) agencyPrintLogoImg.src = "";
+        
+        if (agencyLogoUpload) agencyLogoUpload.value = "";
+    };
+
+    if (agencyLogoUpload) {
+        agencyLogoUpload.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (file.size > 2 * 1024 * 1024) {
+                alert("File size exceeds 2MB limit. Please upload a smaller image file.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64Data = event.target.result;
+                SafeStorage.set("agency_logo", base64Data);
+                applyAgencyLogo(base64Data);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    window.saveAgencyDomainsList = () => {
+        const rawVal = agencyDomainsInput ? agencyDomainsInput.value.trim() : "";
+        let domains = rawVal ? rawVal.split("\n").map(d => d.trim()).filter(d => d.length > 0) : [];
+        
+        if (domains.length > 25) {
+            alert("Reseller Plan limit is 25 domains. Only the first 25 domains will be saved.");
+            domains = domains.slice(0, 25);
+            if (agencyDomainsInput) {
+                agencyDomainsInput.value = domains.join("\n");
+            }
+        }
+        
+        SafeStorage.set("agency_domains", JSON.stringify(domains));
+        updateDomainsUI(domains);
+        alert("Client domains list saved successfully!");
+    };
+
+    function updateDomainsUI(domains) {
+        if (domainsCounter) {
+            domainsCounter.innerText = `${domains.length} / 25 domains`;
+        }
+
+        if (agencyDomainSelect) {
+            agencyDomainSelect.innerHTML = '<option value="">-- Select Saved Domain --</option>';
+            domains.forEach(d => {
+                const option = document.createElement("option");
+                option.value = d;
+                option.innerText = d;
+                agencyDomainSelect.appendChild(option);
+            });
+        }
+    }
+
+    window.selectAgencyDomain = () => {
+        if (!agencyDomainSelect) return;
+        const selected = agencyDomainSelect.value;
+        if (!selected) return;
+
+        const domainInput = document.getElementById("lit-domain");
+        if (domainInput) {
+            domainInput.value = selected;
+        }
+        
+        const namePart = selected.split(".")[0] || selected;
+        const capName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        const companyInput = document.getElementById("lit-company");
+        if (companyInput) {
+            companyInput.value = capName + " Ltd.";
+        }
+
+        if (typeof updateLitigationDocs === "function") {
+            updateLitigationDocs();
+        }
+    };
+
+    function initAgencySettings() {
+        const savedLogo = SafeStorage.get("agency_logo");
+        if (savedLogo) {
+            applyAgencyLogo(savedLogo);
+        }
+
+        let savedDomains = [];
+        try {
+            const rawDomains = SafeStorage.get("agency_domains");
+            savedDomains = rawDomains ? JSON.parse(rawDomains) : [];
+        } catch(e) {
+            savedDomains = [];
+        }
+        
+        if (agencyDomainsInput) {
+            agencyDomainsInput.value = savedDomains.join("\n");
+        }
+        updateDomainsUI(savedDomains);
+    }
+
+    // Call settings initialization on load
+    initAgencySettings();
 });

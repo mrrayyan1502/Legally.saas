@@ -57,6 +57,9 @@ const LegalDocs = {
 
         <h3>5. Governing Law</h3>
         <p>These Terms are governed by and construed in accordance with the laws of the United Kingdom. Any legal actions or disputes arising from the use of this Service shall be resolved under the exclusive jurisdiction of UK courts.</p>
+
+        <h3>6. Agency and Third-Party Reseller Terms</h3>
+        <p>If you subscribe to the Agency Plan or use the Service to audit websites on behalf of third-party clients, you agree that you are solely responsible for managing your clients' expectations and compliance requirements. LegAlly provides technical, automated scans and code suggestions, which do not constitute legal advice. To the maximum extent permitted by applicable law, LegAlly's liability is limited to the subscription fees paid by the agency in the preceding 30 days. Under no circumstances shall LegAlly be liable for any disputes, legal notices, or settlement claims between you (the reseller/agency) and your client websites. You agree to fully indemnify, defend, and hold harmless LegAlly, its founders, and affiliates from any claims, liabilities, damages, or legal expenses arising out of your auditing of third-party websites.</p>
     `,
 
     disclaimer: `

@@ -442,7 +442,7 @@
                             <span class="strike-pricing" id="grid-strike-price" style="display: none; font-size: 1.2rem; text-decoration: line-through; color: var(--text-dark); margin-right: 8px;">£299</span>
                             <span id="grid-final-price">£299</span><span id="grid-price-period">/ year</span>
                         </div>
-                        <p class="plan-desc">Complete automated accessibility audit for commercial small businesses, SaaS tools, and developers.</p>
+                        <p class="plan-desc">Complete automated accessibility audit for commercial small businesses, SaaS owners, and developers.</p>
                         
                         <!-- Mini Scarcity tag -->
                         <div class="pricing-timer" id="grid-promo-timer" style="margin-bottom: 15px; font-size: 0.8rem; background: rgba(239, 68, 68, 0.08); padding: 8px; border-radius: 6px; color: #fca5a5; text-align: center; border: 1px solid rgba(239,68,68,0.15);">
@@ -458,6 +458,24 @@
                             <li><span class="feat-icon">✓</span> Embeddable Trust Seal Badges</li>
                         </ul>
                         <a href="https://buy.stripe.com/aFadRacnlcHQ5Wb0sf3F600" id="btn-pricing-professional" target="_blank" class="btn-checkout" style="background: linear-gradient(135deg, var(--primary), #4facfe); border: none; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; color: #fff;">Activate Professional Plan</a>
+                    </div>
+
+                    <!-- Agency Plan Card -->
+                    <div class="pricing-card">
+                        <h3>Agency Plan</h3>
+                        <div class="price-val">
+                            <span id="agency-final-price">£990</span><span id="agency-price-period">/ year</span>
+                        </div>
+                        <p class="plan-desc">For web agencies, developers, and consultants managing digital accessibility audits for multiple clients.</p>
+                        <ul class="plan-features">
+                            <li><span class="feat-icon">✓</span> <strong>Scan up to 25 domains</strong></li>
+                            <li><span class="feat-icon">✓</span> <strong>White-Labeled PDF Reports</strong></li>
+                            <li><span class="feat-icon">✓</span> Upload Custom Agency Logo</li>
+                            <li><span class="feat-icon">✓</span> Client Statement Generator</li>
+                            <li><span class="feat-icon">✓</span> AI HTML Auto-Fixer Engine</li>
+                            <li><span class="feat-icon">✓</span> Embeddable Trust Seal Badges</li>
+                        </ul>
+                        <a href="https://buy.stripe.com/8x2aEY5YX0Z80BRb6T3F604" id="btn-pricing-agency" target="_blank" class="btn-checkout" style="background: linear-gradient(135deg, var(--secondary), var(--accent)); border: none; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; color: #fff;">Activate Agency Plan</a>
                     </div>
 
                     <!-- Enterprise Card -->
@@ -545,6 +563,42 @@
                         </div>
                     </div>
 
+                    <!-- Middle: Agency Reseller Settings -->
+                    <div class="glass-panel" id="agency-portal-panel" style="padding: 24px; border-radius: 16px; text-align: left; display: flex; flex-direction: column; gap: 18px; border: 1px solid var(--border-color);">
+                        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px;">🏢 Agency Reseller Portal</h4>
+                        
+                        <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Upload Agency Logo (White-Label PDF)</label>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <input type="file" id="agency-logo-upload" accept="image/*" style="display: none;">
+                                <button type="button" class="btn-copy-fix" onclick="document.getElementById('agency-logo-upload').click()" style="margin: 0; background: rgba(255,255,255,0.05); font-size: 0.85rem; font-weight: 600;">
+                                    📤 Choose Image
+                                </button>
+                                <span id="logo-upload-status" style="font-size: 0.8rem; color: var(--text-muted);">No logo uploaded</span>
+                            </div>
+                            <div id="agency-logo-preview-container" style="display: none; margin-top: 8px;">
+                                <img id="agency-logo-preview-img" src="" alt="Agency Logo Preview" style="max-height: 45px; border-radius: 4px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); padding: 4px;">
+                                <button type="button" class="btn-copy-fix" onclick="clearAgencyLogo()" style="margin-left: 10px; font-size: 0.75rem; color: var(--danger); background: transparent; border: none; padding: 0;">Remove</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label for="agency-domain-select" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Select Client Domain</label>
+                            <select id="agency-domain-select" style="background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 0.9rem;" onchange="selectAgencyDomain()">
+                                <option value="">-- Select Saved Domain --</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-input-group" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label for="agency-domains-input" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Manage Client Domains (1 per line, max 25)</label>
+                            <textarea id="agency-domains-input" placeholder="e.g.&#10;client1.com&#10;client2.com" class="form-control" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 0.9rem; height: 100px; resize: none; font-family: monospace;" oninput="updateAgencyDomains()"></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <button type="button" class="btn-copy-fix" onclick="saveAgencyDomainsList()" style="margin: 0; font-size: 0.75rem; padding: 4px 10px;">Save Domains</button>
+                                <span id="domains-counter" style="font-size: 0.75rem; color: var(--text-muted);">0 / 25 domains</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Right: Live Previews -->
                     <div class="litigation-previews" style="display: flex; flex-direction: column; gap: 20px;">
                         
@@ -553,7 +607,12 @@
                             <!-- Gold watermark seal design -->
                             <div style="position: absolute; right: -20px; bottom: -20px; font-size: 8rem; opacity: 0.05; pointer-events: none;">🛡️</div>
                             
-                            <div style="font-size: 2.4rem; color: #fbbf24; margin-bottom: 12px; filter: drop-shadow(0 2px 10px rgba(251,191,36,0.3));">🏆</div>
+                            <div id="print-logo-header">
+                                <div id="default-print-logo" style="font-size: 2.4rem; color: #fbbf24; margin-bottom: 12px; filter: drop-shadow(0 2px 10px rgba(251,191,36,0.3));">🏆</div>
+                                <div id="agency-print-logo-container" style="display: none; margin-bottom: 12px;">
+                                    <img id="agency-print-logo-img" src="" alt="Agency Logo" style="max-height: 55px; filter: drop-shadow(0 2px 8px rgba(255,255,255,0.15));">
+                                </div>
+                            </div>
                             <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Accessibility Audit Report</h3>
                             <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 20px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; font-weight: 600;">LegAlly Accessibility Scan Verification</span>
                             
@@ -570,6 +629,11 @@
                             <!-- Seal representation -->
                             <div style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid #fbbf24; padding: 8px 16px; border-radius: 30px; background: rgba(251,191,36,0.06); font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
                                 🛡️ AXE-CORE AUDIT VERIFIED
+                            </div>
+
+                            <!-- Report Disclaimer Footer (Always Prints) -->
+                            <div class="print-disclaimer-footer" style="margin-top: 30px; padding-top: 15px; border-top: 1px dashed rgba(251, 191, 36, 0.25); font-size: 0.7rem; color: var(--text-dark); text-align: center; line-height: 1.4; font-weight: 500;">
+                                *Automated scan generated via Axe-Core. Automated scans do not guarantee 100% compliance or lawsuit immunity. Technical educational reference only.*
                             </div>
                         </div>
 
