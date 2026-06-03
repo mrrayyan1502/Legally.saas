@@ -615,7 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const discountVal = document.getElementById("discount-val");
     const finalPriceVal = document.getElementById("final-price");
     const btnCheckout = document.getElementById("btn-checkout");
-    const countdownVal = document.getElementById("countdown-val");
+
 
     if (btnApply) {
         btnApply.addEventListener("click", () => {
@@ -703,16 +703,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Live active license counter FOMO logic
-    let remainingLicenses = 14;
-    const licenseInterval = setInterval(() => {
-        if (remainingLicenses > 3) {
-            remainingLicenses -= Math.floor(Math.random() * 2);
-            if (countdownVal) countdownVal.innerText = remainingLicenses;
-        } else {
-            clearInterval(licenseInterval);
-        }
-    }, 45000); // decrement occasionally
+
 
     // Dynamic FAQ accordion handler
     window.toggleFaq = (header) => {
@@ -1038,43 +1029,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // 4. Evergreen Scarcity Countdown clock
-    function runEvergreenTimer() {
-        const timerDisplay = document.getElementById("grid-countdown-timer");
-        if (!timerDisplay) return;
-        
-        let expiryTime = localStorage.getItem("countdown_expiry");
-        const now = new Date().getTime();
-        
-        if (!expiryTime || parseInt(expiryTime) < now) {
-            // Set expiry to 24 hours from now
-            expiryTime = now + 24 * 60 * 60 * 1000;
-            localStorage.setItem("countdown_expiry", expiryTime);
-        }
-        
-        const interval = setInterval(() => {
-            const currentNow = new Date().getTime();
-            const distance = parseInt(expiryTime) - currentNow;
-            
-            if (distance < 0) {
-                clearInterval(interval);
-                localStorage.removeItem("countdown_expiry");
-                runEvergreenTimer(); // Loop back evergreen scarcity
-                return;
-            }
-            
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            const formattedHours = hours.toString().padStart(2, '0');
-            const formattedMinutes = minutes.toString().padStart(2, '0');
-            const formattedSeconds = seconds.toString().padStart(2, '0');
-            
-            timerDisplay.innerText = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-        }, 1000);
-    }
-    runEvergreenTimer();
+
 
     // 5. Lead Capturing & PDF scorecard downloads
     window.generateLeadScorecard = (e) => {
