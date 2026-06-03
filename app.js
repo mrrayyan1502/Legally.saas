@@ -1,5 +1,5 @@
 /* 
-   LegAlly - Web Accessibility & Compliance Shield
+   LegAlly - Web Accessibility & Audit Tool
    Core JavaScript Application Logic (app.js)
    Integrates client-side axe-core audits, crawler simulators, coupon codes, and premium UI.
 */
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 0. Automatic Post-Payment PDF Audit Delivery System
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("pdf") === "success") {
-        alert("🎉 PAYMENT VERIFIED SUCCESSFULLY!\n\nThank you for purchasing the LegAlly Certified Compliance PDF Report. We are now generating your premium white-labeled audit report certificate...");
+        alert("🎉 PAYMENT VERIFIED SUCCESSFULLY!\n\nThank you for purchasing the LegAlly Compliance PDF Audit Report. We are now generating your premium white-labeled accessibility audit report...");
         
         // Clean URL query parameters so the browser navigation remains clean
         const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
@@ -325,8 +325,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 violationsList.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: var(--success);">
                         <svg style="width: 48px; height: 48px; margin-bottom: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        <h4>Outstanding! 100% WCAG Compliant</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">No accessibility violations were detected in your code. You are protected!</p>
+                        <h4>Outstanding! No Violations Found</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">No accessibility violations were detected in your code. Your current scan is clear!</p>
                     </div>
                 `;
                 return;
@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 badgeLabel: "CRITICAL",
                 title: "Images missing Alternative Text ('alt' attributes)",
                 standard: "WCAG 2.1 (Success Criterion 1.1.1)",
-                desc: "Screen readers cannot describe images to blind or visually impaired users if the alternative description tag is missing. This is a primary focal point for litigation lawyers!",
+                desc: "Screen readers cannot describe images to blind or visually impaired users if the alternative description tag is missing. This is one of the most common reasons for accessibility complaints.",
                 badCode: `<img src="https://www.${hostname}/assets/images/logo.png" class="brand-logo">`,
                 goodCode: `<img src="https://www.${hostname}/assets/images/logo.png" class="brand-logo" alt="${capitalizedBrand} official brand logo preview">`
             },
@@ -660,7 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const widgetIcon = document.getElementById("widget-icon");
     if (widgetIcon) {
         widgetIcon.addEventListener("click", () => {
-            alert("🛡️ LegAlly Accessibility Overlay Widget Mock!\n\nThis is a premium widget module. In the premium tier (£239/yr), pasting a single-line script tag onto your site loads this floating button. It lets disabled visitors toggle text resizing, high contrast filters, screen readers, and keyboard navigation guides on-the-fly, giving you instantly improved legal protection!");
+            alert("🔮 LegAlly Accessibility Overlay Widget Mock!\n\nThis is a premium widget module. In the premium tier (£239/yr), pasting a single-line script tag onto your site loads this floating button. It lets disabled visitors toggle text resizing, high contrast filters, screen readers, and keyboard navigation guides on-the-fly, giving your visitors custom accessibility tools to improve site usability!");
         });
     }
 
@@ -957,7 +957,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. Litigation Defense Center Navigation & Print layouts
+    // 3. Accessibility Documentation Center Navigation & Print layouts
     const litigationView = document.getElementById("litigation-view");
     const litCompany = document.getElementById("lit-company");
     const litDomain = document.getElementById("lit-domain");
@@ -1020,8 +1020,8 @@ document.addEventListener("DOMContentLoaded", () => {
 <p>This accessibility statement applies to the website target domain address: <strong>${domainVal}</strong>.</p>
 <h3>Conformance Status</h3>
 <p>We strongly believe that the internet should be available and accessible to anyone. We are committed to providing a website that is accessible to the widest possible audience, regardless of ability. To fulfill this, we aim to adhere as closely as possible to the Web Content Accessibility Guidelines 2.1 (WCAG 2.1) at the Level AA standard. These guidelines explain how to make web content more accessible to people with a wide array of sensory, physical, cognitive, and visual impairments.</p>
-<h3>Remediation Compliance Metrics</h3>
-<p>All core site layouts have been successfully scanned and remediated using the industry-standard gold verification audit engine LegAlly. Key corrections implemented include focus ring navigation guides, image descriptive text alternatives, and clear ARIA descriptors.</p>
+<h3>Accessibility Audit & Alignment Metrics</h3>
+<p>All core site layouts have been scanned using the industry-standard Axe-Core audit engine via LegAlly to identify and remediate key issues. Implementation efforts focused on focus ring navigation guides, image descriptive text alternatives, and ARIA descriptors.</p>
 <p><strong>Statement Date:</strong> ${dateVal}</p>
 `;
         
@@ -1083,14 +1083,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = leadEmailEl ? leadEmailEl.value.trim() : "";
         if (!email) return;
         
-        alert("📩 Thank you! Accessibility scorecard created successfully.\n\nOpening print window to download your White-labeled compliance PDF...");
+        alert("📩 Thank you! Accessibility scorecard created successfully.\n\nOpening print window to download your White-labeled accessibility PDF report...");
         window.print();
     };
 
     // 6. Embeddable trust badge copy logic
     window.copyBadgeEmbed = (btn) => {
         if (!btn) return;
-        const embedCode = `<a href="https://uselegally.com" target="_blank" title="Verified accessible by LegAlly WCAG compliance auditor"><div style="background:rgba(10,15,30,0.9);border:1px solid #22c55e;padding:12px 20px;border-radius:12px;display:inline-flex;align-items:center;gap:12px;font-family:sans-serif;color:#fff;"><span style="font-size:1.6rem;">🛡️</span><div style="text-align:left;"><span style="font-size:0.65rem;color:#a3a3a3;display:block;text-transform:uppercase;letter-spacing:1px;">Verified Accessible</span><strong style="font-size:0.85rem;color:#fff;">LegAlly Certified</strong></div></div></a>`;
+        const embedCode = `<a href="https://uselegally.com" target="_blank" title="Website audited by LegAlly accessibility scanner"><div style="background:rgba(10,15,30,0.9);border:1px solid #22c55e;padding:12px 20px;border-radius:12px;display:inline-flex;align-items:center;gap:12px;font-family:sans-serif;color:#fff;"><span style="font-size:1.6rem;">🛡️</span><div style="text-align:left;"><span style="font-size:0.65rem;color:#a3a3a3;display:block;text-transform:uppercase;letter-spacing:1px;">WCAG Scanned</span><strong style="font-size:0.85rem;color:#fff;">LegAlly Verified</strong></div></div></a>`;
         
         navigator.clipboard.writeText(embedCode).then(() => {
             const originalText = btn.innerText;
