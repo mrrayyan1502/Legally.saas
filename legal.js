@@ -192,6 +192,6 @@ const LegalDocs = {
 
         <h3>3. Feedback & Contact</h3>
         <p>We welcome your feedback on the accessibility of our SaaS website. If you encounter any barriers, please let us know so we can address them:</p>
-        <p><strong>Email:</strong> accessibility@uselegally.com</p>
+        <p><strong>Email:</strong> legally.support@gmail.com</p>
     `
 };
